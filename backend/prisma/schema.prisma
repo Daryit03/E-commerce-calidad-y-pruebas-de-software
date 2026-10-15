@@ -1,0 +1,234 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model caracteristica_producto {
+  id_caracteristica Int      @id @default(autoincrement())
+  id_producto       Int
+  nombre            String   @db.VarChar(80)
+  valor             String   @db.VarChar(150)
+  orden             Int      @default(1) @db.SmallInt
+  producto          producto @relation(fields: [id_producto], references: [id_producto], onDelete: Cascade, onUpdate: NoAction, map: "fk_caracteristica_producto")
+
+  @@unique([id_producto, nombre], map: "uq_caracteristica_producto_nombre")
+}
+
+model carrito {
+  id_carrito          Int               @id @default(autoincrement())
+  id_usuario          Int
+  fecha_creacion      DateTime          @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion DateTime?         @db.Timestamptz(6)
+  estado              Boolean           @default(true)
+  usuario             usuario           @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_carrito_usuario")
+  detalle_carrito     detalle_carrito[]
+}
+
+model categoria {
+  id_categoria   Int            @id @default(autoincrement())
+  nombre         String         @unique(map: "uq_categoria_nombre") @db.VarChar(100)
+  descripcion    String?        @db.VarChar(250)
+  estado         Boolean        @default(true)
+  fecha_registro DateTime       @default(now()) @db.Timestamptz(6)
+  subcategoria   subcategoria[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model detalle_carrito {
+  id_detalle_carrito Int      @id @default(autoincrement())
+  id_carrito         Int
+  id_producto        Int
+  cantidad           Int
+  precio_unitario    Decimal  @db.Decimal(10, 2)
+  carrito            carrito  @relation(fields: [id_carrito], references: [id_carrito], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_carrito_carrito")
+  producto           producto @relation(fields: [id_producto], references: [id_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_carrito_producto")
+
+  @@unique([id_carrito, id_producto], map: "uq_carrito_producto")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model detalle_pedido {
+  id_detalle_pedido Int      @id @default(autoincrement())
+  id_pedido         Int
+  id_producto       Int
+  cantidad          Int
+  precio_unitario   Decimal  @db.Decimal(10, 2)
+  pedido            pedido   @relation(fields: [id_pedido], references: [id_pedido], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_pedido_pedido")
+  producto          producto @relation(fields: [id_producto], references: [id_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_detalle_pedido_producto")
+
+  @@unique([id_pedido, id_producto], map: "uq_pedido_producto")
+}
+
+model direccion {
+  id_direccion  Int      @id @default(autoincrement())
+  id_usuario    Int
+  departamento  String   @db.VarChar(100)
+  provincia     String   @db.VarChar(100)
+  distrito      String   @db.VarChar(100)
+  direccion     String   @db.VarChar(250)
+  referencia    String?  @db.VarChar(250)
+  codigo_postal String?  @db.VarChar(10)
+  es_principal  Boolean  @default(false)
+  estado        Boolean  @default(true)
+  usuario       usuario  @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_direccion_usuario")
+  pedido        pedido[]
+}
+
+model estado_pedido {
+  id_estado_pedido Int                @id @default(autoincrement())
+  nombre           String             @unique(map: "uq_estado_pedido_nombre") @db.VarChar(50)
+  descripcion      String?            @db.VarChar(200)
+  historial_pedido historial_pedido[]
+  pedido           pedido[]
+}
+
+model historial_pedido {
+  id_historial     Int           @id @default(autoincrement())
+  id_pedido        Int
+  id_estado_pedido Int
+  fecha            DateTime      @default(now()) @db.Timestamptz(6)
+  observacion      String?       @db.VarChar(300)
+  estado_pedido    estado_pedido @relation(fields: [id_estado_pedido], references: [id_estado_pedido], onDelete: NoAction, onUpdate: NoAction, map: "fk_historial_pedido_estado")
+  pedido           pedido        @relation(fields: [id_pedido], references: [id_pedido], onDelete: NoAction, onUpdate: NoAction, map: "fk_historial_pedido_pedido")
+}
+
+model imagen_producto {
+  id_imagen            Int      @id @default(autoincrement())
+  id_producto          Int
+  url_cloudinary       String   @db.VarChar(500)
+  public_id_cloudinary String?  @db.VarChar(255)
+  es_principal         Boolean  @default(false)
+  estado               Boolean  @default(true)
+  producto             producto @relation(fields: [id_producto], references: [id_producto], onDelete: NoAction, onUpdate: NoAction, map: "fk_imagen_producto_producto")
+}
+
+model marca {
+  id_marca       Int        @id @default(autoincrement())
+  nombre         String     @unique(map: "uq_marca_nombre") @db.VarChar(100)
+  descripcion    String?    @db.VarChar(250)
+  estado         Boolean    @default(true)
+  fecha_registro DateTime   @default(now()) @db.Timestamptz(6)
+  producto       producto[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model metodo_pago {
+  id_metodo_pago      Int      @id @default(autoincrement())
+  nombre              String   @unique(map: "uq_metodo_pago_nombre") @db.VarChar(50)
+  descripcion         String?  @db.VarChar(200)
+  comision_porcentaje Decimal  @default(0) @db.Decimal(5, 2)
+  tipo_entrega        String?  @db.VarChar(20)
+  estado              Boolean  @default(true)
+  pedido              pedido[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model pago {
+  id_pago    Int      @id @default(autoincrement())
+  id_pedido  Int      @unique(map: "uq_pago_pedido")
+  referencia String?  @unique(map: "uq_pago_referencia") @db.VarChar(255)
+  monto      Decimal  @db.Decimal(10, 2)
+  moneda     String   @default("PEN") @db.Char(3)
+  estado     String   @db.VarChar(30)
+  fecha_pago DateTime @default(now()) @db.Timestamptz(6)
+  pedido     pedido   @relation(fields: [id_pedido], references: [id_pedido], onDelete: NoAction, onUpdate: NoAction, map: "fk_pago_pedido")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model pedido {
+  id_pedido        Int                @id @default(autoincrement())
+  id_usuario       Int
+  id_direccion     Int?
+  id_estado_pedido Int
+  id_metodo_pago   Int
+  tipo_entrega     String             @db.VarChar(20)
+  fecha_pedido     DateTime           @default(now()) @db.Timestamptz(6)
+  subtotal         Decimal            @db.Decimal(10, 2)
+  comision         Decimal            @default(0) @db.Decimal(10, 2)
+  costo_envio      Decimal            @default(0) @db.Decimal(10, 2)
+  total            Decimal            @db.Decimal(10, 2)
+  detalle_pedido   detalle_pedido[]
+  historial_pedido historial_pedido[]
+  pago             pago?
+  direccion        direccion?         @relation(fields: [id_direccion], references: [id_direccion], onDelete: NoAction, onUpdate: NoAction, map: "fk_pedido_direccion")
+  estado_pedido    estado_pedido      @relation(fields: [id_estado_pedido], references: [id_estado_pedido], onDelete: NoAction, onUpdate: NoAction, map: "fk_pedido_estado")
+  metodo_pago      metodo_pago        @relation(fields: [id_metodo_pago], references: [id_metodo_pago], onDelete: NoAction, onUpdate: NoAction, map: "fk_pedido_metodo_pago")
+  usuario          usuario            @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_pedido_usuario")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model producto {
+  id_producto             Int                       @id @default(autoincrement())
+  id_subcategoria         Int
+  id_marca                Int
+  nombre                  String                    @db.VarChar(150)
+  descripcion             String?                   @db.VarChar(500)
+  precio                  Decimal                   @db.Decimal(10, 2)
+  stock                   Int                       @default(0)
+  estado                  Boolean                   @default(true)
+  destacado               Boolean                   @default(false)
+  fecha_registro          DateTime                  @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion     DateTime?                 @db.Timestamptz(6)
+  caracteristica_producto caracteristica_producto[]
+  detalle_carrito         detalle_carrito[]
+  detalle_pedido          detalle_pedido[]
+  imagen_producto         imagen_producto[]
+  marca                   marca                     @relation(fields: [id_marca], references: [id_marca], onDelete: NoAction, onUpdate: NoAction, map: "fk_producto_marca")
+  subcategoria            subcategoria              @relation(fields: [id_subcategoria], references: [id_subcategoria], onDelete: NoAction, onUpdate: NoAction, map: "fk_producto_subcategoria")
+}
+
+model rol {
+  id_rol      Int       @id @default(autoincrement())
+  nombre      String    @unique(map: "uq_rol_nombre") @db.VarChar(50)
+  descripcion String?   @db.VarChar(200)
+  estado      Boolean   @default(true)
+  usuario     usuario[]
+}
+
+model subcategoria {
+  id_subcategoria Int        @id @default(autoincrement())
+  id_categoria    Int
+  nombre          String     @db.VarChar(100)
+  descripcion     String?    @db.VarChar(250)
+  estado          Boolean    @default(true)
+  fecha_registro  DateTime   @default(now()) @db.Timestamptz(6)
+  producto        producto[]
+  categoria       categoria  @relation(fields: [id_categoria], references: [id_categoria], onDelete: NoAction, onUpdate: NoAction, map: "fk_subcategoria_categoria")
+
+  @@unique([id_categoria, nombre], map: "uq_subcategoria_categoria_nombre")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model token_recuperacion {
+  id_token         Int      @id @default(autoincrement())
+  id_usuario       Int
+  token_hash       String   @unique(map: "uq_token_hash") @db.VarChar(255)
+  fecha_creacion   DateTime @default(now()) @db.Timestamptz(6)
+  fecha_expiracion DateTime @db.Timestamptz(6)
+  usado            Boolean  @default(false)
+  usuario          usuario  @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_token_usuario")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model usuario {
+  id_usuario          Int                  @id @default(autoincrement())
+  id_rol              Int
+  nombres             String               @db.VarChar(100)
+  apellidos           String               @db.VarChar(100)
+  dni                 String               @unique(map: "uq_usuario_dni") @db.Char(8)
+  correo              String               @unique(map: "uq_usuario_correo") @db.VarChar(150)
+  password            String               @db.VarChar(255)
+  telefono            String?              @db.VarChar(20)
+  estado              Boolean              @default(true)
+  fecha_registro      DateTime             @default(now()) @db.Timestamptz(6)
+  fecha_actualizacion DateTime?            @db.Timestamptz(6)
+  carrito             carrito[]
+  direccion           direccion[]
+  pedido              pedido[]
+  token_recuperacion  token_recuperacion[]
+  rol                 rol                  @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_rol")
+}
