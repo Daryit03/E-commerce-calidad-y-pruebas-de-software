@@ -32,7 +32,7 @@ export default function ProductoDetalle() {
   // Normaliza imágenes y ficha técnica (acepta textos u objetos)
   const imagenes = (p.imagenes || []).map((i) => (typeof i === 'string' ? i : i.url)).filter(Boolean);
   if (imagenes.length === 0 && p.imagen) imagenes.push(p.imagen);
-  const ficha = p.caracteristicas || [];
+  const ficha = p.ficha || [];
   const maximo = p.stock ?? 10;
 
   const cambiarCantidad = (n) => setCantidad(Math.min(Math.max(1, n), maximo));
@@ -43,7 +43,10 @@ export default function ProductoDetalle() {
   return (
     <div>
       <p className="migas">
-        <Link to="/">Inicio</Link> / <Link to="/catalogo">Catálogo</Link> / {p.nombre}
+        <Link to="/">Inicio</Link> /{' '}
+        {p.categoria && <><Link to={`/catalogo?categoria=${p.categoria.id}`}>{p.categoria.nombre}</Link> /{' '}</>}
+        {p.subcategoria && <><Link to={`/catalogo?categoria=${p.categoria?.id}&subcategoria=${p.subcategoria.id}`}>{p.subcategoria.nombre}</Link> /{' '}</>}
+        {p.nombre}
       </p>
 
       <div className="detalle caja">
