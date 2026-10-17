@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const catalogoRoutes = require('./infrastructure/routes/catalogo.routes');
 const authRoutes = require('./infrastructure/routes/auth.routes');
+const carritoRoutes = require('./infrastructure/routes/carrito.routes');
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.get('/api/salud', (req, res) => res.json({ estado: 'ok' }));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/carrito', carritoRoutes);
 app.use('/api', catalogoRoutes);
 
 // Ruta no encontrada
