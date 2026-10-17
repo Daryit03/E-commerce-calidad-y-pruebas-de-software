@@ -10,6 +10,7 @@ import Perfil from './pages/Perfil';
 import RecuperarCuenta from './pages/RecuperarCuenta';
 import RestablecerPassword from './pages/RestablecerPassword';
 import ProtectedRoute from './routes/ProtectedRoute';
+import Carrito from './pages/Carrito';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/recuperar" element={<RecuperarCuenta />} />
           <Route path="/restablecer" element={<RestablecerPassword />} />
           <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
+          <Route path="/carrito" element={<ProtectedRoute><Carrito /></ProtectedRoute>} />
           <Route path="*" element={<p>Esta página aún está en construcción.</p>} />
         </Routes>
       </main>
