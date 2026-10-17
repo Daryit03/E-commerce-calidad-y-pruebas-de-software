@@ -1,30 +1,28 @@
 const express = require('express');
 const cors = require('cors');
 const catalogoRoutes = require('./infrastructure/routes/catalogo.routes');
+const authRoutes = require('./infrastructure/routes/auth.routes');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// Ruta de prueba
-app.get('/api/salud', (req, res) => {
-  res.json({ ok: true, mensaje: 'API funcionando' });
-});
+app.get('/api/salud', (req, res) => res.json({ estado: 'ok' }));
 
-// Rutas del catálogo: /api/categorias, /api/productos, ...
+app.use('/api/auth', authRoutes);
 app.use('/api', catalogoRoutes);
 
-// Si la ruta no existe
-app.use((req, res) => {
-  res.status(404).json({ error: 'Ruta no encontrada' });
-});
+// Ruta no encontrada
+app.use((req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));
 
-// Manejador de errores: usa el código del error (400, 404) o 500 si es inesperado
+// Manejo central de errores
 app.use((err, req, res, next) => {
-  if (!err.status) console.error(err);
-  res.status(err.status || 500).json({
-    error: err.status ? err.message : 'Error interno del servidor',
+  const status = err.status || 500;
+  if (status === 500) console.error(err);
+  res.status(status).json({
+    error: status === 500 ? 'Error interno del servidor' : err.message,
+    ...(err.errores && { errores: err.errores }),
   });
 });
 
