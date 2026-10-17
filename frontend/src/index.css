@@ -174,3 +174,27 @@ button { font: inherit; cursor: pointer; }
 @media (max-width: 800px) {
   .catalogo, .detalle { grid-template-columns: 1fr; }
 }
+
+/* ===== Formularios de cuenta ===== */
+.auth-contenedor { display: flex; justify-content: center; padding: 24px 0; }
+.auth-form { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 14px; }
+.auth-form.auth-ancho { max-width: 640px; }
+.auth-form h1 { margin: 0 0 4px; }
+.auth-form label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 14px; }
+.auth-form input { padding: 10px 12px; border: 1px solid var(--borde); border-radius: 8px; font: inherit; font-weight: 400; }
+.auth-form input:focus { outline: 2px solid var(--azul); outline-offset: -1px; }
+.auth-form .input-error { border-color: #d62d4b; }
+.campo-error { color: #d62d4b; font-size: 13px; font-weight: 400; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-grid .ancho { grid-column: 1 / -1; }
+.auth-pie { text-align: center; margin: 0; font-size: 14px; }
+.auth-pie a { color: var(--azul); }
+.mensaje-exito { background: #e7f7ec; color: #1d7a3d; padding: 10px 12px; border-radius: 8px; margin: 0; }
+.reglas { list-style: none; padding: 0; margin: 0; font-size: 13px; color: var(--gris); display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.reglas li.ok { color: #1d7a3d; }
+.nav-usuario { font-weight: 600; }
+.nav-salir { background: none; border: 1px solid currentColor; color: inherit; padding: 6px 10px; border-radius: 6px; cursor: pointer; font: inherit; }
+
+@media (max-width: 600px) {
+  .form-grid, .reglas { grid-template-columns: 1fr; }
+}

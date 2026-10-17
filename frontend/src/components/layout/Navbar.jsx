@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function Navbar() {
   const [texto, setTexto] = useState('');
   const navigate = useNavigate();
-
+  const { usuario, logout } = useAuth();
   // Al buscar, lleva al catálogo con el texto en la URL: /catalogo?q=taladro
   function buscar(e) {
     e.preventDefault();
@@ -41,7 +42,16 @@ export default function Navbar() {
         <nav className="nav-links" aria-label="Principal">
           <Link to="/catalogo">Catálogo</Link>
           <Link to="/mis-pedidos">Mis pedidos</Link>
-          <Link to="/login">Ingresar</Link>
+          {usuario ? (
+  <>
+    <span className="nav-usuario">Hola, {usuario.nombres.split(' ')[0]}</span>
+    <button className="nav-salir" onClick={() => { logout(); navigate('/'); }}>
+      Cerrar sesión
+    </button>
+  </>
+) : (
+  <Link to="/login">Iniciar sesión</Link>
+)}
           <Link to="/carrito">Carrito (0)</Link>
         </nav>
       </div>
