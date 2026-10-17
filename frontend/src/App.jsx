@@ -6,6 +6,10 @@ import Catalogo from './pages/Catalogo';
 import ProductoDetalle from './pages/ProductoDetalle';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
+import Perfil from './pages/Perfil';
+import RecuperarCuenta from './pages/RecuperarCuenta';
+import RestablecerPassword from './pages/RestablecerPassword';
+import ProtectedRoute from './routes/ProtectedRoute';
 
 export default function App() {
   return (
@@ -18,6 +22,9 @@ export default function App() {
           <Route path="/producto/:id" element={<ProductoDetalle />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
+          <Route path="/recuperar" element={<RecuperarCuenta />} />
+          <Route path="/restablecer" element={<RestablecerPassword />} />
+          <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
           <Route path="*" element={<p>Esta página aún está en construcción.</p>} />
         </Routes>
       </main>

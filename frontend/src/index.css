@@ -198,3 +198,17 @@ button { font: inherit; cursor: pointer; }
 @media (max-width: 600px) {
   .form-grid, .reglas { grid-template-columns: 1fr; }
 }
+
+/* ===== Perfil ===== */
+.perfil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.auth-form.perfil-form { max-width: none; }
+.perfil-form h2 { margin: 0; font-size: 20px; }
+.perfil-form .btn { align-self: flex-start; }
+.auth-form input:disabled { background: var(--fondo); color: var(--gris); cursor: not-allowed; }
+.nota { font-size: 13px; margin: 0; }
+a.nav-usuario { color: inherit; text-decoration: none; }
+a.nav-usuario:hover { text-decoration: underline; }
+
+@media (max-width: 800px) {
+  .perfil-grid { grid-template-columns: 1fr; }
+}

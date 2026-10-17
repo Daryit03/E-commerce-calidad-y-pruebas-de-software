@@ -44,7 +44,7 @@ export default function Navbar() {
           <Link to="/mis-pedidos">Mis pedidos</Link>
           {usuario ? (
   <>
-    <span className="nav-usuario">Hola, {usuario.nombres.split(' ')[0]}</span>
+    <Link to="/perfil" className="nav-usuario">Hola, {usuario.nombres.split(' ')[0]}</Link>
     <button className="nav-salir" onClick={() => { logout(); navigate('/'); }}>
       Cerrar sesión
     </button>
