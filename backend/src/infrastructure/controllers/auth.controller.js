@@ -1,8 +1,19 @@
-function crearAuthController(casos) {
+function crearAuthController({ auth, perfil, recuperacion }) {
+  const body = (req) => req.body ?? {};
+
   return {
-    registrar: async (req, res) => res.status(201).json(await casos.registrar(req.body ?? {})),
-    iniciarSesion: async (req, res) => res.json(await casos.iniciarSesion(req.body ?? {})),
-    yo: async (req, res) => res.json(await casos.obtenerUsuarioActual(req.usuario.id)),
+    // Sesión
+    registrar: async (req, res) => res.status(201).json(await auth.registrar(body(req))),
+    iniciarSesion: async (req, res) => res.json(await auth.iniciarSesion(body(req))),
+    yo: async (req, res) => res.json(await auth.obtenerUsuarioActual(req.usuario.id)),
+
+    // Perfil (el id sale del token, no del body)
+    actualizarPerfil: async (req, res) => res.json(await perfil.actualizarPerfil(req.usuario.id, body(req))),
+    cambiarPassword: async (req, res) => res.json(await perfil.cambiarPassword(req.usuario.id, body(req))),
+
+    // Recuperación de cuenta
+    solicitarRecuperacion: async (req, res) => res.json(await recuperacion.solicitar(body(req))),
+    restablecerPassword: async (req, res) => res.json(await recuperacion.restablecer(body(req))),
   };
 }
 

@@ -55,6 +55,22 @@ class PrismaUsuarioRepository extends UsuarioRepository {
       throw e;
     }
   }
+
+  async actualizarDatos(id, d) {
+    const fila = await prisma.usuario.update({
+      where: { id_usuario: Number(id) },
+      data: { nombres: d.nombres, apellidos: d.apellidos, telefono: d.telefono, fecha_actualizacion: new Date() },
+      include: incluir,
+    });
+    return aEntidad(fila);
+  }
+
+  async actualizarPassword(id, passwordHash) {
+    await prisma.usuario.update({
+      where: { id_usuario: Number(id) },
+      data: { password: passwordHash, fecha_actualizacion: new Date() },
+    });
+  }
 }
 
 module.exports = PrismaUsuarioRepository;

@@ -38,4 +38,19 @@ function validarRegistro(d) {
   return e;
 }
 
-module.exports = { validarRegistro, validarPassword };
+function validarPerfil(d) {
+  const e = {};
+
+  if (!d.nombres) e.nombres = 'Ingresa tus nombres';
+  else if (!SOLO_LETRAS.test(d.nombres)) e.nombres = 'Solo letras (mínimo 2)';
+
+  if (!d.apellidos) e.apellidos = 'Ingresa tus apellidos';
+  else if (!SOLO_LETRAS.test(d.apellidos)) e.apellidos = 'Solo letras (mínimo 2)';
+
+  if (!d.telefono) e.telefono = 'Ingresa tu celular';
+  else if (!CELULAR.test(d.telefono)) e.telefono = 'Debe tener 9 dígitos y empezar con 9';
+
+  return e;
+}
+
+module.exports = { validarRegistro, validarPassword, validarPerfil };
