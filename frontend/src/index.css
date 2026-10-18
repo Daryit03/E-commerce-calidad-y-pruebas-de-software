@@ -324,3 +324,46 @@ a.btn.btn-bloque { display: block; }
 @media (max-width: 800px) {
   .pedido-detalle { grid-template-columns: 1fr; }
 }
+
+/* ===== Panel de administración ===== */
+.admin { display: grid; grid-template-columns: 230px 1fr; gap: 24px; align-items: start; }
+.admin-menu { background: var(--navy); color: #fff; border-radius: 12px; padding: 18px 12px; position: sticky; top: 16px; }
+.admin-saludo { margin: 0 8px 16px; font-size: 13px; opacity: .85; display: flex; flex-direction: column; }
+.admin-saludo b { font-size: 15px; opacity: 1; }
+.admin-menu nav { display: flex; flex-direction: column; gap: 4px; }
+.admin-link { color: #fff; text-decoration: none; padding: 9px 12px; border-radius: 8px; opacity: .85; }
+.admin-link:hover { background: rgba(255, 255, 255, .1); opacity: 1; }
+.admin-link.activo { background: var(--azul); opacity: 1; font-weight: 600; }
+.admin-contenido h1 { margin-top: 0; }
+.admin-modulos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; }
+.admin-modulo { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--texto); align-items: flex-start; }
+.admin-modulo:hover { outline: 2px solid var(--azul); }
+.nav-admin { background: var(--magenta); color: #fff !important; padding: 6px 10px; border-radius: 6px; text-decoration: none; font-weight: 600; }
+
+/* ===== Categorías y marcas ===== */
+.clasif-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; align-items: start; }
+.seccion-cabecera { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 12px; }
+.seccion-cabecera h2 { margin: 0; font-size: 18px; }
+.lista-clasif, .sublista { list-style: none; padding: 0; margin: 0; }
+.lista-clasif > li { border-bottom: 1px solid var(--borde); }
+.lista-clasif > li:last-child { border-bottom: 0; }
+.sublista { margin: 0 0 10px 20px; padding-left: 12px; border-left: 3px solid var(--borde); }
+.fila-clasif { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; padding: 10px 0; }
+.fila-clasif.inactiva .fila-clasif-info b { color: var(--gris); text-decoration: line-through; }
+.fila-clasif-info { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.fila-clasif-info .btn-link { padding: 0; font-size: 14px; }
+.fila-clasif-acciones { display: flex; gap: 4px; }
+
+/* ===== Modal ===== */
+.modal-fondo { position: fixed; inset: 0; background: rgba(15, 19, 48, .55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 100; }
+.modal { width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; }
+.modal-cabecera { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.modal-cabecera h2 { margin: 0; font-size: 20px; }
+.modal-cabecera .btn-link { font-size: 20px; color: var(--gris); }
+.auth-form.modal-form { max-width: none; }
+.modal-botones { display: flex; justify-content: flex-end; gap: 10px; }
+
+@media (max-width: 900px) {
+  .admin, .clasif-grid { grid-template-columns: 1fr; }
+  .admin-menu { position: static; }
+}

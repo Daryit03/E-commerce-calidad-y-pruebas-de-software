@@ -15,6 +15,10 @@ import Checkout from './pages/Checkout';
 import CompraExitosa from './pages/CompraExitosa';
 import MisPedidos from './pages/MisPedidos';
 import PedidoDetalle from './pages/PedidoDetalle';
+import AdminRoute from './routes/AdminRoute';
+import AdminLayout from './components/admin/AdminLayout';
+import AdminInicio from './pages/admin/AdminInicio';
+import GestionClasificacion from './pages/admin/GestionClasificacion';
 
 export default function App() {
   return (
@@ -35,6 +39,12 @@ export default function App() {
           <Route path="/compra-exitosa" element={<ProtectedRoute><CompraExitosa /></ProtectedRoute>} />
           <Route path="/mis-pedidos" element={<ProtectedRoute><MisPedidos /></ProtectedRoute>} />
           <Route path="/mis-pedidos/:id" element={<ProtectedRoute><PedidoDetalle /></ProtectedRoute>} />
+
+          <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+            <Route index element={<AdminInicio />} />
+            <Route path="clasificacion" element={<GestionClasificacion />} />
+            <Route path="*" element={<p className="texto-gris">Este módulo se construirá en los siguientes pasos.</p>} />
+          </Route>
           <Route path="*" element={<p>Esta página aún está en construcción.</p>} />
         </Routes>
       </main>

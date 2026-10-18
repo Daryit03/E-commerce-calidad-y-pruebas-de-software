@@ -5,6 +5,7 @@ const authRoutes = require('./infrastructure/routes/auth.routes');
 const carritoRoutes = require('./infrastructure/routes/carrito.routes');
 const checkoutRoutes = require('./infrastructure/routes/checkout.routes');
 const pedidosRoutes = require('./infrastructure/routes/pedidos.routes');
+const adminRoutes = require('./infrastructure/routes/admin.routes');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/carrito', carritoRoutes);
 app.use('/api/checkout', checkoutRoutes);
 app.use('/api/pedidos', pedidosRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api', catalogoRoutes);
 
 // Ruta no encontrada

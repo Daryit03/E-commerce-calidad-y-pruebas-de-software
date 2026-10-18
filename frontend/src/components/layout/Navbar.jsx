@@ -52,6 +52,11 @@ export default function Navbar() {
           <Link to="/mis-pedidos">Mis pedidos</Link>
           {usuario ? (
             <>
+              {usuario.rol === "Administrador" && (
+                <Link to="/admin" className="nav-admin">
+                  Panel admin
+                </Link>
+              )}
               <Link to="/perfil" className="nav-usuario">
                 Hola, {usuario.nombres.split(" ")[0]}
               </Link>
