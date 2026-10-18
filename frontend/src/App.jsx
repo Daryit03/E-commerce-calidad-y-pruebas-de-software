@@ -13,6 +13,8 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import Carrito from './pages/Carrito';
 import Checkout from './pages/Checkout';
 import CompraExitosa from './pages/CompraExitosa';
+import MisPedidos from './pages/MisPedidos';
+import PedidoDetalle from './pages/PedidoDetalle';
 
 export default function App() {
   return (
@@ -31,6 +33,8 @@ export default function App() {
           <Route path="/carrito" element={<ProtectedRoute><Carrito /></ProtectedRoute>} />
           <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
           <Route path="/compra-exitosa" element={<ProtectedRoute><CompraExitosa /></ProtectedRoute>} />
+          <Route path="/mis-pedidos" element={<ProtectedRoute><MisPedidos /></ProtectedRoute>} />
+          <Route path="/mis-pedidos/:id" element={<ProtectedRoute><PedidoDetalle /></ProtectedRoute>} />
           <Route path="*" element={<p>Esta página aún está en construcción.</p>} />
         </Routes>
       </main>

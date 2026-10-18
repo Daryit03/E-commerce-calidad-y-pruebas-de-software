@@ -132,6 +132,79 @@ class PrismaPedidoRepository extends PedidoRepository {
   async actualizarPago(idPedido, { estado, referencia }) {
     await prisma.pago.update({ where: { id_pedido: idPedido }, data: { estado, referencia } });
   }
+
+  async listarPorUsuario(idUsuario) {
+    const filas = await prisma.pedido.findMany({
+      where: { id_usuario: idUsuario },
+      orderBy: { fecha_pedido: 'desc' },
+      include: incluirPedido(false),
+    });
+    return filas.map(aPedido);
+  }
+
+  async buscarDeUsuario(idUsuario, idPedido) {
+    const f = await prisma.pedido.findFirst({
+      where: { id_pedido: idPedido, id_usuario: idUsuario }, // solo si es SUYO
+      include: incluirPedido(true),
+    });
+    return f ? aPedido(f) : null;
+  }
+}
+
+function incluirPedido(conHistorial) {
+  return {
+    estado_pedido: true,
+    metodo_pago: true,
+    direccion: true,
+    pago: true,
+    detalle_pedido: {
+      orderBy: { id_detalle_pedido: 'asc' },
+      include: {
+        producto: {
+          include: {
+            marca: true,
+            imagen_producto: { where: { estado: true }, orderBy: { es_principal: 'desc' }, take: 1 },
+          },
+        },
+      },
+    },
+    ...(conHistorial && {
+      historial_pedido: { orderBy: { fecha: 'asc' }, include: { estado_pedido: true } },
+    }),
+  };
+}
+
+function aPedido(f) {
+  return {
+    id: f.id_pedido,
+    fecha: f.fecha_pedido,
+    estado: f.estado_pedido.nombre,
+    tipoEntrega: f.tipo_entrega,
+    metodoPago: f.metodo_pago.nombre,
+    pago: f.pago ? { estado: f.pago.estado, referencia: f.pago.referencia } : null,
+    direccion: f.direccion
+      ? `${f.direccion.direccion}, ${f.direccion.distrito}, ${f.direccion.provincia}` +
+        (f.direccion.referencia ? ` (Ref.: ${f.direccion.referencia})` : '')
+      : null,
+    subtotal: Number(f.subtotal),
+    comision: Number(f.comision),
+    costoEnvio: Number(f.costo_envio),
+    total: Number(f.total),
+    items: f.detalle_pedido.map((d) => ({
+      idProducto: d.id_producto,
+      nombre: d.producto.nombre,
+      marca: d.producto.marca.nombre,
+      imagen: d.producto.imagen_producto[0]?.url_cloudinary ?? null,
+      cantidad: d.cantidad,
+      precio: Number(d.precio_unitario), // precio que se pagó
+      subtotal: (Math.round(Number(d.precio_unitario) * 100) * d.cantidad) / 100,
+    })),
+    historial: f.historial_pedido?.map((h) => ({
+      estado: h.estado_pedido.nombre,
+      fecha: h.fecha,
+      observacion: h.observacion,
+    })),
+  };
 }
 
 module.exports = PrismaPedidoRepository;

@@ -41,7 +41,7 @@ export default function CompraExitosa() {
 
       <div className="confirmacion-botones">
         <Link to="/catalogo" className="btn">Seguir comprando</Link>
-        <Link to="/mis-pedidos" className="btn btn-secundario">Ver mis pedidos</Link>
+        <Link to={`/mis-pedidos/${pedido.id}`} className="btn btn-secundario">Ver mi pedido</Link>
       </div>
     </div>
   );
