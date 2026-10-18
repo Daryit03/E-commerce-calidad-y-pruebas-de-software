@@ -3,6 +3,7 @@ const cors = require('cors');
 const catalogoRoutes = require('./infrastructure/routes/catalogo.routes');
 const authRoutes = require('./infrastructure/routes/auth.routes');
 const carritoRoutes = require('./infrastructure/routes/carrito.routes');
+const checkoutRoutes = require('./infrastructure/routes/checkout.routes');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.get('/api/salud', (req, res) => res.json({ estado: 'ok' }));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/carrito', carritoRoutes);
+app.use('/api/checkout', checkoutRoutes);
 app.use('/api', catalogoRoutes);
 
 // Ruta no encontrada

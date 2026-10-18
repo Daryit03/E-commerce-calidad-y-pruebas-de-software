@@ -34,6 +34,8 @@ export default function CartProvider({ children }) {
     actualizar: (idProducto, cantidad) => ejecutar(carritoService.actualizarItem(idProducto, cantidad)),
     eliminar: (idProducto) => ejecutar(carritoService.eliminarItem(idProducto)),
     vaciar: () => ejecutar(carritoService.vaciarCarrito()),
+    recargar: () =>
+      carritoService.obtenerCarrito().then((datos) => setEstado({ idUsuario: usuario.id, datos })),
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

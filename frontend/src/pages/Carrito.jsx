@@ -73,9 +73,11 @@ export default function Carrito() {
           {!carrito.listoParaComprar && (
             <p className="mensaje-error">Revisa los productos marcados antes de continuar.</p>
           )}
-          <button className="btn btn-bloque" disabled title="Disponible en el módulo Compra">
-            Continuar compra
-          </button>
+          {carrito.listoParaComprar ? (
+            <Link to="/checkout" className="btn btn-bloque">Continuar compra</Link>
+          ) : (
+            <button className="btn btn-bloque" disabled>Continuar compra</button>
+          )}
           <Link to="/catalogo" className="btn btn-secundario btn-bloque">Seguir comprando</Link>
           <button className="btn-link" onClick={confirmarVaciar} disabled={ocupado !== null}>
             Vaciar carrito
