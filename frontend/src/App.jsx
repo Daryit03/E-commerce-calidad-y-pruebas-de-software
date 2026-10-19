@@ -19,6 +19,8 @@ import AdminRoute from './routes/AdminRoute';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminInicio from './pages/admin/AdminInicio';
 import GestionClasificacion from './pages/admin/GestionClasificacion';
+import GestionProductos from './pages/admin/GestionProductos';
+import FormProducto from './pages/admin/FormProducto';
 
 export default function App() {
   return (
@@ -43,6 +45,9 @@ export default function App() {
           <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
             <Route index element={<AdminInicio />} />
             <Route path="clasificacion" element={<GestionClasificacion />} />
+            <Route path="productos" element={<GestionProductos />} />
+            <Route path="productos/nuevo" element={<FormProducto />} />
+            <Route path="productos/:id" element={<FormProducto key="editar" />} />
             <Route path="*" element={<p className="texto-gris">Este módulo se construirá en los siguientes pasos.</p>} />
           </Route>
           <Route path="*" element={<p>Esta página aún está en construcción.</p>} />

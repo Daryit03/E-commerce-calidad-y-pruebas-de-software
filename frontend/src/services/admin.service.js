@@ -9,3 +9,21 @@ export const editarClasificacion = (tipo, id, datos) =>
   api.put(`/admin/${RUTA[tipo]}/${id}`, datos).then((r) => r.data);
 export const cambiarEstadoClasificacion = (tipo, id, estado) =>
   api.patch(`/admin/${RUTA[tipo]}/${id}/estado`, { estado }).then((r) => r.data);
+
+// ===== Productos (HO12 / HO13) =====
+export const listarProductosAdmin = (params) => api.get('/admin/productos', { params }).then((r) => r.data);
+export const obtenerProductoAdmin = (id) => api.get(`/admin/productos/${id}`).then((r) => r.data);
+export const crearProducto = (datos) => api.post('/admin/productos', datos).then((r) => r.data);
+export const actualizarProducto = (id, datos) => api.put(`/admin/productos/${id}`, datos).then((r) => r.data);
+export const cambiarEstadoProducto = (id, estado) =>
+  api.patch(`/admin/productos/${id}/estado`, { estado }).then((r) => r.data);
+export const cambiarDestacadoProducto = (id, destacado) =>
+  api.patch(`/admin/productos/${id}/destacado`, { destacado }).then((r) => r.data);
+export const eliminarProducto = (id) => api.delete(`/admin/productos/${id}`).then((r) => r.data);
+
+// Envía los archivos como formulario (multipart) al backend
+export const subirImagenes = (archivos) => {
+  const formulario = new FormData();
+  archivos.forEach((a) => formulario.append('imagenes', a));
+  return api.post('/admin/imagenes', formulario).then((r) => r.data);
+};

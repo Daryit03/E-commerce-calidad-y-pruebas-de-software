@@ -367,3 +367,50 @@ a.btn.btn-bloque { display: block; }
   .admin, .clasif-grid { grid-template-columns: 1fr; }
   .admin-menu { position: static; }
 }
+
+/* ===== Admin: lista de productos ===== */
+.admin-filtros { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+.admin-buscador { display: flex; gap: 8px; flex: 1; min-width: 240px; }
+.admin-buscador input, .admin-filtros select { padding: 8px 10px; border: 1px solid var(--borde); border-radius: 8px; font: inherit; }
+.admin-buscador input { flex: 1; }
+.tabla-contenedor { padding: 0; overflow-x: auto; }
+.tabla-admin { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tabla-admin th { text-align: left; padding: 12px; color: var(--gris); font-weight: 600; border-bottom: 1px solid var(--borde); white-space: nowrap; }
+.tabla-admin td { padding: 10px 12px; border-bottom: 1px solid var(--borde); vertical-align: middle; }
+.tabla-admin tr:last-child td { border-bottom: 0; }
+.fila-inactiva td { opacity: .6; }
+.celda-sub { display: block; font-size: 13px; }
+.acciones { white-space: nowrap; }
+.texto-peligro { color: #c8203f !important; }
+.stock-cero { color: #c8203f; font-weight: 700; }
+.stock-bajo { color: #8a6100; font-weight: 700; }
+.estrella { background: none; border: 0; font-size: 22px; cursor: pointer; color: #cfd3df; line-height: 1; }
+.estrella.activa { color: #f5b400; }
+.estrella:hover { transform: scale(1.15); }
+
+/* ===== Admin: formulario de producto ===== */
+.auth-form.form-producto { max-width: 900px; gap: 18px; }
+.form-producto section { display: flex; flex-direction: column; gap: 14px; }
+.form-producto h2 { margin: 0; font-size: 18px; }
+.form-producto .seccion-cabecera { margin-bottom: 0; }
+.auth-form select, .auth-form textarea { padding: 10px 12px; border: 1px solid var(--borde); border-radius: 8px; font: inherit; font-weight: 400; background: #fff; }
+.auth-form textarea { resize: vertical; }
+.auth-form select.input-error, .auth-form textarea.input-error { border-color: #d62d4b; }
+.form-grid.tres { grid-template-columns: repeat(3, 1fr); }
+.form-producto .check { flex-direction: row; font-weight: 500; }
+.fila-ficha { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; }
+.fila-ficha input { padding: 9px 10px; border: 1px solid var(--borde); border-radius: 8px; font: inherit; }
+.galeria-admin { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+.foto-admin { position: relative; aspect-ratio: 1; border: 2px solid var(--borde); border-radius: 10px; overflow: hidden; background: var(--fondo); }
+.foto-admin.principal { border-color: #f5b400; }
+.foto-admin img { width: 100%; height: 100%; object-fit: contain; }
+.foto-quitar { position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; border-radius: 50%; border: 0; background: rgba(15, 19, 48, .75); color: #fff; cursor: pointer; }
+.foto-etiqueta { position: absolute; left: 6px; bottom: 6px; font-size: 12px; font-weight: 700; background: #f5b400; color: #3d2c00; padding: 3px 8px; border-radius: 999px; }
+.foto-etiqueta.boton { background: rgba(255, 255, 255, .92); color: var(--texto); border: 1px solid var(--borde); cursor: pointer; font-weight: 600; }
+.foto-subir { aspect-ratio: 1; border: 2px dashed var(--borde); border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--azul); font-weight: 600; text-align: center; }
+.foto-subir:hover { border-color: var(--azul); background: #f2f5ff; }
+.foto-subir.subiendo { color: var(--gris); cursor: wait; }
+
+@media (max-width: 700px) {
+  .form-grid.tres { grid-template-columns: 1fr; }
+}

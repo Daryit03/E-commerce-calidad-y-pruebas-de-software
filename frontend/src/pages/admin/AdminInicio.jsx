@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
 const MODULOS = [
-  { to: 'productos', titulo: 'Productos', texto: 'Registrar, editar y publicar productos', listo: false },
+  { to: 'productos', titulo: 'Productos', texto: 'Registrar, editar y publicar productos', listo: true },
   { to: 'clasificacion', titulo: 'Categorías y marcas', texto: 'Organizar el catálogo', listo: true },
   { to: 'pedidos', titulo: 'Pedidos', texto: 'Atender y cambiar el estado de los pedidos', listo: false },
   { to: 'clientes', titulo: 'Clientes', texto: 'Ver clientes y su historial de compras', listo: false },
