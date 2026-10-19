@@ -41,3 +41,6 @@ export const listarClientesAdmin = (params) => api.get('/admin/clientes', { para
 export const obtenerClienteAdmin = (id) => api.get(`/admin/clientes/${id}`).then((r) => r.data);
 export const cambiarEstadoCliente = (id, estado) =>
   api.patch(`/admin/clientes/${id}/estado`, { estado }).then((r) => r.data);
+
+// ===== Dashboard (HO11) =====
+export const obtenerDashboard = () => api.get('/admin/dashboard').then((r) => r.data);

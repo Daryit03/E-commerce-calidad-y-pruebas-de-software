@@ -8,6 +8,8 @@ const { crearCasosDeUsoAdminPedidos } = require('../../application/admin/pedidos
 const { crearCasosDeUsoAdminClientes } = require('../../application/admin/clientes');
 const PrismaPedidoRepository = require('../repositories/PrismaPedidoRepository');
 const PrismaClienteAdminRepository = require('../repositories/PrismaClienteAdminRepository');
+const PrismaDashboardRepository = require('../repositories/PrismaDashboardRepository');
+const { crearCasosDeUsoDashboard } = require('../../application/admin/dashboard');
 const { crearAdminController } = require('../controllers/admin.controller');
 const { requiereAuth, requiereAdmin } = require('../../middlewares/auth.middleware');
 const { subirImagenes } = require('../../middlewares/subirImagenes.middleware');
@@ -26,10 +28,14 @@ const c = crearAdminController({
     clienteAdminRepository: new PrismaClienteAdminRepository(),
     pedidoRepository: new PrismaPedidoRepository(),
   }),
+  dashboard: crearCasosDeUsoDashboard({ dashboardRepository: new PrismaDashboardRepository() }),
 });
 
 const router = Router();
 router.use(requiereAuth, requiereAdmin); // solo administradores
+
+// HO11
+router.get('/dashboard', c.dashboard);
 
 // HO16
 router.get('/categorias', c.listarCategorias);

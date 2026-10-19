@@ -1,4 +1,4 @@
-function crearAdminController({ clasificacion, productos, pedidos, clientes }) {
+function crearAdminController({ clasificacion, productos, pedidos, clientes, dashboard }) {
   const body = (req) => req.body ?? {};
 
   return {
@@ -30,6 +30,9 @@ function crearAdminController({ clasificacion, productos, pedidos, clientes }) {
     listarClientes: async (req, res) => res.json(await clientes.listar(req.query)),
     obtenerCliente: async (req, res) => res.json(await clientes.detalle(req.params.id)),
     estadoCliente: async (req, res) => res.json(await clientes.cambiarEstado(req.params.id, body(req))),
+
+    // HO11 - Dashboard
+    dashboard: async (req, res) => res.json(await dashboard.obtener()),
   };
 }
 
