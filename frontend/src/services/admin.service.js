@@ -27,3 +27,17 @@ export const subirImagenes = (archivos) => {
   archivos.forEach((a) => formulario.append('imagenes', a));
   return api.post('/admin/imagenes', formulario).then((r) => r.data);
 };
+
+// ===== Pedidos (HO14) =====
+export const listarPedidosAdmin = (params) => api.get('/admin/pedidos', { params }).then((r) => r.data);
+export const obtenerPedidoAdmin = (id) => api.get(`/admin/pedidos/${id}`).then((r) => r.data);
+export const cambiarEstadoPedido = (id, estado, observacion) =>
+  api.patch(`/admin/pedidos/${id}/estado`, { estado, observacion }).then((r) => r.data);
+export const cambiarEstadoPago = (id, estado) =>
+  api.patch(`/admin/pedidos/${id}/pago`, { estado }).then((r) => r.data);
+
+// ===== Clientes (HO15) =====
+export const listarClientesAdmin = (params) => api.get('/admin/clientes', { params }).then((r) => r.data);
+export const obtenerClienteAdmin = (id) => api.get(`/admin/clientes/${id}`).then((r) => r.data);
+export const cambiarEstadoCliente = (id, estado) =>
+  api.patch(`/admin/clientes/${id}/estado`, { estado }).then((r) => r.data);

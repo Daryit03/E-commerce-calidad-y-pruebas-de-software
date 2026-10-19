@@ -414,3 +414,18 @@ a.btn.btn-bloque { display: block; }
 @media (max-width: 700px) {
   .form-grid.tres { grid-template-columns: 1fr; }
 }
+
+/* ===== Admin: pedidos y clientes ===== */
+.opciones-estado { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.chip-peligro { border-color: #f3b5c1; color: #c8203f; }
+.chip-peligro.activo { background: #c8203f; border-color: #c8203f; color: #fff; }
+.btn-peligro { background: #c8203f; }
+.auth-form.cambiar-estado { max-width: none; gap: 12px; }
+.resumen-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0; }
+.resumen-cards .caja { display: flex; flex-direction: column; gap: 4px; }
+.resumen-cards b { font-size: 22px; }
+.pedido-lateral h2, .pedido-detalle h2 { margin: 0 0 10px; font-size: 18px; }
+
+@media (max-width: 700px) {
+  .resumen-cards { grid-template-columns: 1fr; }
+}

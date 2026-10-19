@@ -21,6 +21,10 @@ import AdminInicio from './pages/admin/AdminInicio';
 import GestionClasificacion from './pages/admin/GestionClasificacion';
 import GestionProductos from './pages/admin/GestionProductos';
 import FormProducto from './pages/admin/FormProducto';
+import GestionPedidos from './pages/admin/GestionPedidos';
+import PedidoAdmin from './pages/admin/PedidoAdmin';
+import GestionClientes from './pages/admin/GestionClientes';
+import ClienteAdmin from './pages/admin/ClienteAdmin';
 
 export default function App() {
   return (
@@ -47,7 +51,11 @@ export default function App() {
             <Route path="clasificacion" element={<GestionClasificacion />} />
             <Route path="productos" element={<GestionProductos />} />
             <Route path="productos/nuevo" element={<FormProducto />} />
-            <Route path="productos/:id" element={<FormProducto key="editar" />} />
+              <Route path="productos/:id" element={<FormProducto key="editar" />} />
+              <Route path="pedidos" element={<GestionPedidos />} />
+              <Route path="pedidos/:id" element={<PedidoAdmin />} />
+              <Route path="clientes" element={<GestionClientes />} />
+              <Route path="clientes/:id" element={<ClienteAdmin />} />
             <Route path="*" element={<p className="texto-gris">Este módulo se construirá en los siguientes pasos.</p>} />
           </Route>
           <Route path="*" element={<p>Esta página aún está en construcción.</p>} />

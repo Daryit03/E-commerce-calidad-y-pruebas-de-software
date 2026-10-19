@@ -4,6 +4,10 @@ const PrismaProductoAdminRepository = require('../repositories/PrismaProductoAdm
 const CloudinaryAdapter = require('../external/CloudinaryAdapter');
 const { crearCasosDeUsoClasificacion } = require('../../application/admin/clasificacion');
 const { crearCasosDeUsoAdminProductos } = require('../../application/admin/productos');
+const { crearCasosDeUsoAdminPedidos } = require('../../application/admin/pedidos');
+const { crearCasosDeUsoAdminClientes } = require('../../application/admin/clientes');
+const PrismaPedidoRepository = require('../repositories/PrismaPedidoRepository');
+const PrismaClienteAdminRepository = require('../repositories/PrismaClienteAdminRepository');
 const { crearAdminController } = require('../controllers/admin.controller');
 const { requiereAuth, requiereAdmin } = require('../../middlewares/auth.middleware');
 const { subirImagenes } = require('../../middlewares/subirImagenes.middleware');
@@ -16,6 +20,11 @@ const c = crearAdminController({
     productoAdminRepository: new PrismaProductoAdminRepository(),
     clasificacionRepository,
     almacenImagenes: CloudinaryAdapter,
+  }),
+  pedidos: crearCasosDeUsoAdminPedidos({ pedidoRepository: new PrismaPedidoRepository() }),
+  clientes: crearCasosDeUsoAdminClientes({
+    clienteAdminRepository: new PrismaClienteAdminRepository(),
+    pedidoRepository: new PrismaPedidoRepository(),
   }),
 });
 
@@ -40,5 +49,16 @@ router.put('/productos/:id', c.actualizarProducto);
 router.patch('/productos/:id/estado', c.estadoProducto);
 router.patch('/productos/:id/destacado', c.destacadoProducto);
 router.delete('/productos/:id', c.eliminarProducto);
+
+// HO14
+router.get('/pedidos', c.listarPedidos);
+router.get('/pedidos/:id', c.obtenerPedido);
+router.patch('/pedidos/:id/estado', c.estadoPedido);
+router.patch('/pedidos/:id/pago', c.pagoPedido);
+
+// HO15
+router.get('/clientes', c.listarClientes);
+router.get('/clientes/:id', c.obtenerCliente);
+router.patch('/clientes/:id/estado', c.estadoCliente);
 
 module.exports = router;

@@ -149,6 +149,106 @@ class PrismaPedidoRepository extends PedidoRepository {
     });
     return f ? aPedido(f) : null;
   }
+
+  // ===== Administración (HO14) =====
+  async listarAdmin({ estado, q, pagina, limite }) {
+    const idBuscado = /^\d+$/.test(q) ? Number(q) : null;
+    const where = {
+      ...(estado && { estado_pedido: { nombre: estado } }),
+      ...(q && {
+        OR: [
+          ...(idBuscado ? [{ id_pedido: idBuscado }] : []),
+          { usuario: { nombres: { contains: q, mode: 'insensitive' } } },
+          { usuario: { apellidos: { contains: q, mode: 'insensitive' } } },
+          { usuario: { correo: { contains: q, mode: 'insensitive' } } },
+          { usuario: { dni: { contains: q } } },
+        ],
+      }),
+    };
+
+    const [total, filas, estados] = await prisma.$transaction([
+      prisma.pedido.count({ where }),
+      prisma.pedido.findMany({
+        where,
+        orderBy: { fecha_pedido: 'desc' },
+        skip: (pagina - 1) * limite,
+        take: limite,
+        include: { usuario: true, estado_pedido: true, metodo_pago: true, pago: true },
+      }),
+      prisma.estado_pedido.findMany({ include: { _count: { select: { pedido: true } } } }),
+    ]);
+
+    return {
+      total,
+      pagina,
+      limite,
+      totalPaginas: Math.max(1, Math.ceil(total / limite)),
+      conteoEstados: Object.fromEntries(estados.map((e) => [e.nombre, e._count.pedido])),
+      pedidos: filas.map((f) => ({
+        id: f.id_pedido,
+        fecha: f.fecha_pedido,
+        cliente: `${f.usuario.nombres} ${f.usuario.apellidos}`,
+        dni: f.usuario.dni,
+        tipoEntrega: f.tipo_entrega,
+        metodoPago: f.metodo_pago.nombre,
+        estadoPago: f.pago?.estado ?? null,
+        total: Number(f.total),
+        estado: f.estado_pedido.nombre,
+      })),
+    };
+  }
+
+  async buscarAdmin(idPedido) {
+    const f = await prisma.pedido.findUnique({
+      where: { id_pedido: idPedido },
+      include: { ...incluirPedido(true), usuario: true },
+    });
+    if (!f) return null;
+    const u = f.usuario;
+    return {
+      ...aPedido(f),
+      cliente: {
+        id: u.id_usuario, nombres: u.nombres, apellidos: u.apellidos,
+        dni: u.dni, correo: u.correo, telefono: u.telefono,
+      },
+    };
+  }
+
+  // Cambia el estado + historial (+ devuelve stock / aprueba pago) en UNA transacción
+  async cambiarEstado({ idPedido, estadoActual, estadoNuevo, observacion, devolverStock, aprobarPago }) {
+    await prisma.$transaction(async (tx) => {
+      const actual = await tx.estado_pedido.findUnique({ where: { nombre: estadoActual } });
+      const destino = await tx.estado_pedido.findUnique({ where: { nombre: estadoNuevo } });
+
+      // Solo actualiza si sigue en el estado que vio el admin (evita choques entre 2 admins)
+      const r = await tx.pedido.updateMany({
+        where: { id_pedido: idPedido, id_estado_pedido: actual.id_estado_pedido },
+        data: { id_estado_pedido: destino.id_estado_pedido },
+      });
+      if (r.count === 0) throw new ConflictoError('El pedido cambió de estado mientras lo revisabas. Recarga la página.');
+
+      await tx.historial_pedido.create({
+        data: { id_pedido: idPedido, id_estado_pedido: destino.id_estado_pedido, observacion },
+      });
+
+      if (devolverStock) {
+        const detalle = await tx.detalle_pedido.findMany({ where: { id_pedido: idPedido } });
+        for (const d of detalle) {
+          await tx.producto.update({
+            where: { id_producto: d.id_producto },
+            data: { stock: { increment: d.cantidad } },
+          });
+        }
+      }
+
+      if (aprobarPago) {
+        await tx.pago.updateMany({
+          where: { id_pedido: idPedido, estado: 'Pendiente' },
+          data: { estado: 'Aprobado', fecha_pago: new Date() },
+        });
+      }
+    });
+  }
 }
 
 function incluirPedido(conHistorial) {

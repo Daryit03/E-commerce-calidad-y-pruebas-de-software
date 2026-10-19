@@ -1,4 +1,4 @@
-function crearAdminController({ clasificacion, productos }) {
+function crearAdminController({ clasificacion, productos, pedidos, clientes }) {
   const body = (req) => req.body ?? {};
 
   return {
@@ -19,6 +19,17 @@ function crearAdminController({ clasificacion, productos }) {
     destacadoProducto: async (req, res) => res.json(await productos.cambiarDestacado(req.params.id, body(req))),
     eliminarProducto: async (req, res) => res.json(await productos.eliminar(req.params.id)),
     subirImagenes: async (req, res) => res.status(201).json(await productos.subirImagenes(req.files)),
+
+    // HO14 - Pedidos
+    listarPedidos: async (req, res) => res.json(await pedidos.listar(req.query)),
+    obtenerPedido: async (req, res) => res.json(await pedidos.detalle(req.params.id)),
+    estadoPedido: async (req, res) => res.json(await pedidos.cambiarEstado(req.params.id, body(req))),
+    pagoPedido: async (req, res) => res.json(await pedidos.cambiarEstadoPago(req.params.id, body(req))),
+
+    // HO15 - Clientes
+    listarClientes: async (req, res) => res.json(await clientes.listar(req.query)),
+    obtenerCliente: async (req, res) => res.json(await clientes.detalle(req.params.id)),
+    estadoCliente: async (req, res) => res.json(await clientes.cambiarEstado(req.params.id, body(req))),
   };
 }
 
