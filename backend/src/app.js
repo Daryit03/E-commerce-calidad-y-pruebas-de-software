@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const catalogoRoutes = require('./infrastructure/routes/catalogo.routes');
 const authRoutes = require('./infrastructure/routes/auth.routes');
 const carritoRoutes = require('./infrastructure/routes/carrito.routes');
@@ -8,9 +9,14 @@ const pedidosRoutes = require('./infrastructure/routes/pedidos.routes');
 const adminRoutes = require('./infrastructure/routes/admin.routes');
 
 const app = express();
+app.set('trust proxy', 1); // en Render: usar la IP real del cliente
 
-app.use(cors());
-app.use(express.json());
+app.use(helmet());
+// Solo la tienda (frontend) puede usar esta API
+app.use(cors({
+  origin: (process.env.FRONTEND_URL || 'http://localhost:5173').split(','),
+}));
+app.use(express.json({ limit: '200kb' }));
 
 app.get('/api/salud', (req, res) => res.json({ estado: 'ok' }));
 

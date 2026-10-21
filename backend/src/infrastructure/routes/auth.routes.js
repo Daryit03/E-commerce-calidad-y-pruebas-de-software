@@ -10,6 +10,16 @@ const { crearCasosDeUsoRecuperacion } = require('../../application/auth/recupera
 const { crearCasosDeUsoPerfil } = require('../../application/perfil/casosDeUso');
 const { crearAuthController } = require('../controllers/auth.controller');
 const { requiereAuth } = require('../../middlewares/auth.middleware');
+const rateLimit = require('express-rate-limit');
+
+// Portero: máximo 10 intentos fallidos cada 15 minutos por persona (IP)
+const limiteIntentos = rateLimit({
+  windowMs: 15 * 60 * 1000,      // 15 minutos
+  limit: 10,                     // 10 intentos
+  skipSuccessfulRequests: true,  // los intentos correctos no cuentan
+  legacyHeaders: false,
+  message: { error: 'Demasiados intentos. Espera 15 minutos e inténtalo de nuevo.' },
+});
 
 const usuarioRepository = new PrismaUsuarioRepository();
 
@@ -29,10 +39,10 @@ const c = crearAuthController({
 const router = Router();
 
 // Públicas
-router.post('/registro', c.registrar);
-router.post('/login', c.iniciarSesion);
-router.post('/recuperar', c.solicitarRecuperacion);
-router.post('/restablecer', c.restablecerPassword);
+router.post('/registro', limiteIntentos, c.registrar);
+router.post('/login', limiteIntentos, c.iniciarSesion);
+router.post('/recuperar', limiteIntentos, c.solicitarRecuperacion);
+router.post('/restablecer', limiteIntentos, c.restablecerPassword);
 
 // Privadas (requieren token)
 router.get('/yo', requiereAuth, c.yo);
