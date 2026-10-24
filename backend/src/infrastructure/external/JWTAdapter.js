@@ -7,5 +7,5 @@ function secreto() {
 
 module.exports = {
   firmar: (datos) => jwt.sign(datos, secreto(), { expiresIn: process.env.JWT_EXPIRES_IN || '8h' }),
-  verificar: (token) => jwt.verify(token, secreto()),
+  verificar: (token) => jwt.verify(token, secreto(), { algorithms: ['HS256'] }),
 };
