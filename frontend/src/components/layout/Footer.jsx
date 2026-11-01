@@ -1,41 +1,16 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-// ===== Datos de la tienda: cámbialos solo aquí =====
-const TIENDA = {
-  telefono: '955342533',   // llamadas (9 dígitos)
-  whatsapp: '936900990',   // WhatsApp (9 dígitos)
-  correo: 'darvinsac03@gmail.com',
-  direccion: 'Av. los Próceres de Huandoy 8120, San Martín de Porres, Lima',
-  direccionCorta: 'Av. los Próceres de Huandoy 8120',
-  detalleDireccion: 'Tienda física',
-  ruc: '20601617596',
-};
-
-// Redes sociales: pega aquí los enlaces de tus páginas (las vacías no se muestran)
-const REDES = [
-  { nombre: 'Facebook', url: '' },
-  { nombre: 'Instagram', url: '' },
-  { nombre: 'TikTok', url: '' },
-  { nombre: 'YouTube', url: '' },
-];
+import {
+  TIENDA, REDES, formatoCelular, enlaceTelefono, enlaceWhatsapp, enlaceCorreo, enlaceMapa,
+} from '../../config/tienda';
 
 // Medios de pago: los logos van en la carpeta frontend/public/pagos/
 const MEDIOS_PAGO = [
-  { nombre: 'Visa', logo: '/pagos/visa.svg' },
-  { nombre: 'Mastercard', logo: '/pagos/mastercard.svg' },
+  { nombre: 'Visa', logo: '/pagos/visa.svg', icono: 'tarjeta' },
   { nombre: 'Yape', logo: '/pagos/yape.png' },
   { nombre: 'Efectivo', icono: 'billete' },
   { nombre: 'Contra entrega', icono: 'camion' },
 ];
-const MENSAJE_WHATSAPP = 'Hola, quisiera hacer una consulta sobre un producto.';
-
-// Enlaces armados a partir de los datos
-const formatoCelular = (n) => n.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
-const enlaceTelefono = `tel:+51${TIENDA.telefono}`;
-const enlaceWhatsapp = `https://wa.me/51${TIENDA.whatsapp}?text=${encodeURIComponent(MENSAJE_WHATSAPP)}`;
-const enlaceCorreo = `mailto:${TIENDA.correo}`;
-const enlaceMapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(TIENDA.direccion)}`;
 
 // Íconos simples (dibujos genéricos)
 const Icono = ({ d, size = 20 }) => (
@@ -55,11 +30,12 @@ const ICONOS = {
   camion: <><path d="M3 6h11v10H3z" /><path d="M14 10h4l3 3v3h-7" /><circle cx="7" cy="18" r="2" /><circle cx="17" cy="18" r="2" /></>,
   tienda: <><path d="M4 10v10h16V10" /><path d="M3 10 5 4h14l2 6z" /><path d="M10 20v-5h4v5" /></>,
   flecha: <path d="m9 6 6 6-6 6" />,
+  tarjeta: <><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20" /><path d="M6 15h4" /></>,
   billete: <><rect x="2" y="6" width="20" height="12" rx="2" /><circle cx="12" cy="12" r="2.5" /><path d="M6 12h.01M18 12h.01" /></>,
   enlace: <><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" /><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" /></>,
 };
 
-// Muestra el logo del medio de pago; si la imagen no carga, muestra el nombre
+// Muestra el logo del medio de pago; si la imagen no carga, muestra el ícono y el nombre
 function MedioPago({ medio }) {
   const [sinLogo, setSinLogo] = useState(false);
   if (medio.logo && !sinLogo) {
@@ -86,6 +62,9 @@ function TituloColumna({ icono, children }) {
   );
 }
 
+// Sube al inicio de la página (sirve también si ya estás en esa misma página)
+const subir = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
 export default function Footer() {
   const redes = REDES.filter((r) => r.url);
 
@@ -94,7 +73,7 @@ export default function Footer() {
       <div className="footer-principal">
         {/* Marca */}
         <div className="footer-marca">
-          <Link to="/" className="footer-logo">
+          <Link to="/" className="footer-logo" onClick={subir}>
             <span className="footer-logo-icono">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
                 <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" />
@@ -117,10 +96,10 @@ export default function Footer() {
         <nav className="footer-columna" aria-label="Navegación del pie de página">
           <TituloColumna icono="menu">Navegación</TituloColumna>
           <ul className="footer-lista">
-            <li><Link to="/"><Icono d={ICONOS.flecha} size={16} />Inicio</Link></li>
-            <li><Link to="/#nosotros"><Icono d={ICONOS.flecha} size={16} />Nosotros</Link></li>
-            <li><Link to="/catalogo"><Icono d={ICONOS.flecha} size={16} />Tienda</Link></li>
-            <li><Link to="/mis-pedidos"><Icono d={ICONOS.flecha} size={16} />Mis pedidos</Link></li>
+            <li><Link to="/" onClick={subir}><Icono d={ICONOS.flecha} size={16} />Inicio</Link></li>
+            <li><Link to="/nosotros" onClick={subir}><Icono d={ICONOS.flecha} size={16} />Nosotros</Link></li>
+            <li><Link to="/catalogo" onClick={subir}><Icono d={ICONOS.flecha} size={16} />Tienda</Link></li>
+            <li><Link to="/mis-pedidos" onClick={subir}><Icono d={ICONOS.flecha} size={16} />Mis pedidos</Link></li>
           </ul>
         </nav>
 
@@ -179,7 +158,7 @@ export default function Footer() {
           </div>
           <div className="footer-sello"><Icono d={ICONOS.escudo} size={28} /><span>Pago seguro<br />y confiable</span></div>
           <p className="footer-copy">
-            © {new Date().getFullYear()} Electro Ferretero Darvin S.A.C. · RUC {TIENDA.ruc}<br />
+            © {new Date().getFullYear()} {TIENDA.nombre} · RUC {TIENDA.ruc}<br />
             Todos los derechos reservados.
           </p>
         </div>

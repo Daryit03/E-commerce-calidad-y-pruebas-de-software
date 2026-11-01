@@ -27,6 +27,7 @@ import GestionClientes from './pages/admin/GestionClientes';
 import ClienteAdmin from './pages/admin/ClienteAdmin';
 import NoEncontrado from './pages/NoEncontrado';
 import VerificarCorreo from './pages/VerificarCorreo';
+import Nosotros from './pages/Nosotros';
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/catalogo" element={<Catalogo />} />
+          <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/producto/:id" element={<ProductoDetalle />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
