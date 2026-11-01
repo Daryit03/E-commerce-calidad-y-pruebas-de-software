@@ -210,6 +210,7 @@ model token_recuperacion {
   fecha_creacion   DateTime @default(now()) @db.Timestamptz(6)
   fecha_expiracion DateTime @db.Timestamptz(6)
   usado            Boolean  @default(false)
+  intentos         Int      @default(0)
   usuario          usuario  @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_token_usuario")
 }
 

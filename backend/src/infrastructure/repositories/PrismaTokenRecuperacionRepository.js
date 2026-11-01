@@ -15,12 +15,24 @@ class PrismaTokenRecuperacionRepository extends TokenRecuperacionRepository {
     ]);
   }
 
-  // Solo devuelve el token si no se usó y no venció
-  async buscarVigente(tokenHash) {
+  // El código vigente (no usado y no vencido) más reciente del usuario
+  async buscarVigentePorUsuario(idUsuario) {
     const f = await prisma.token_recuperacion.findFirst({
-      where: { token_hash: tokenHash, usado: false, fecha_expiracion: { gt: new Date() } },
+      where: { id_usuario: idUsuario, usado: false, fecha_expiracion: { gt: new Date() } },
+      orderBy: { id_token: 'desc' },
     });
-    return f ? { id: f.id_token, idUsuario: f.id_usuario } : null;
+    return f ? { id: f.id_token, idUsuario: f.id_usuario, tokenHash: f.token_hash, intentos: f.intentos } : null;
+  }
+
+  // Suma un intento fallido; al llegar al máximo, el código deja de servir
+  async registrarIntentoFallido(idToken, maxIntentos) {
+    const f = await prisma.token_recuperacion.update({
+      where: { id_token: idToken },
+      data: { intentos: { increment: 1 } },
+    });
+    if (f.intentos >= maxIntentos) {
+      await prisma.token_recuperacion.update({ where: { id_token: idToken }, data: { usado: true } });
+    }
   }
 
   // Marca el token como usado y cambia la contraseña (todo junto)
