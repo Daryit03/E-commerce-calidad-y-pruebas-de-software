@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { TIENDA, formatoCelular, enlaceWhatsapp, enlaceMapa } from '../config/tienda';
+import Icono from '../components/ui/Icono';
 
 // Textos de la página: cámbialos a tu gusto
 const OFRECEMOS = [
@@ -59,19 +60,57 @@ export default function Nosotros() {
         </div>
       </section>
 
-      <section className="seccion caja nosotros-visitanos">
-        <div>
+      <section className="seccion visita">
+        {/* Izquierda: datos de la tienda */}
+        <div className="visita-info">
+          <small className="visita-etiqueta">NUESTRA TIENDA</small>
           <h2>Visítanos</h2>
-          <p><b>Dirección:</b>{' '}
-            <a href={enlaceMapa} target="_blank" rel="noopener noreferrer">{TIENDA.direccion}</a>
-          </p>
-          <p><b>Horario:</b></p>
-          <ul>{TIENDA.horario.map((h) => <li key={h}>{h}</li>)}</ul>
-          <p><b>WhatsApp:</b>{' '}
-            <a href={enlaceWhatsapp} target="_blank" rel="noopener noreferrer">{formatoCelular(TIENDA.whatsapp)}</a>
-          </p>
+          <p className="visita-intro">Te esperamos en nuestra tienda física. Ven, revisa los productos y recibe asesoría personalizada.</p>
+
+          <ul className="visita-datos">
+            <li>
+              <span className="visita-icono"><Icono nombre="ubicacion" size={22} /></span>
+              <div>
+                <b>Dirección</b>
+                <a href={enlaceMapa} target="_blank" rel="noopener noreferrer">{TIENDA.direccion}</a>
+              </div>
+            </li>
+            <li>
+              <span className="visita-icono"><Icono nombre="reloj" size={22} /></span>
+              <div>
+                <b>Horario de atención</b>
+                {TIENDA.horario.map((h) => <span key={h}>{h}</span>)}
+              </div>
+            </li>
+            <li>
+              <span className="visita-icono"><Icono nombre="chat" size={22} /></span>
+              <div>
+                <b>WhatsApp</b>
+                <a href={enlaceWhatsapp} target="_blank" rel="noopener noreferrer">{formatoCelular(TIENDA.whatsapp)}</a>
+              </div>
+            </li>
+          </ul>
+
+          <div className="visita-botones">
+            <a href={enlaceMapa} target="_blank" rel="noopener noreferrer" className="btn btn-amarillo">
+              <Icono nombre="ubicacion" size={18} /> Cómo llegar
+            </a>
+            <a href={enlaceWhatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-borde">
+              <Icono nombre="chat" size={18} /> Escríbenos
+            </a>
+          </div>
         </div>
-        <a href={enlaceMapa} target="_blank" rel="noopener noreferrer" className="btn btn-azul">Cómo llegar</a>
+
+        {/* Derecha: mapa de Google */}
+        <div className="visita-mapa">
+          <iframe
+            title="Ubicación de la tienda en Google Maps"
+            src={`https://www.google.com/maps?q=${encodeURIComponent(TIENDA.direccion)}&output=embed`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
+        </div>
       </section>
     </div>
   );

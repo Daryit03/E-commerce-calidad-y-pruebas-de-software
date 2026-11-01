@@ -168,7 +168,6 @@ export default function Navbar() {
             <a href="#contacto" onClick={irAContacto}>Contacto</a>
           </nav>
 
-          <Link to="/catalogo" className="cab-boton-catalogo"><Icono nombre="etiqueta" size={18} /> Ver catálogo</Link>
         </div>
       </div>
     </header>

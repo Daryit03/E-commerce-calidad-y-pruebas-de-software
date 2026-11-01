@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import ProductCard from '../components/product/ProductCard';
-import Icono, { iconoCategoria } from '../components/ui/Icono';
+import Icono from '../components/ui/Icono';
 import { enlaceWhatsapp } from '../config/tienda';
 import {
   obtenerCategorias, obtenerDestacados, obtenerNuevos, obtenerMarcasTienda,
@@ -39,21 +39,6 @@ export default function Home() {
       <div className="inicio-arriba">
         {/* Columna izquierda: categorías y ayuda */}
         <aside className="inicio-lateral">
-          <nav className="inicio-categorias" aria-label="Categorías">
-            <h2><Icono nombre="menu" size={20} /> Todas las categorías</h2>
-            <ul>
-              {datos.categorias.map((c) => (
-                <li key={c.id}>
-                  <Link to={`/catalogo?categoria=${c.id}`}>
-                    <Icono nombre={iconoCategoria(c.nombre)} size={18} />
-                    <span>{c.nombre}</span>
-                    <Icono nombre="derecha" size={16} className="inicio-chevron" />
-                  </Link>
-                </li>
-              ))}
-              {cargando && <li className="texto-gris inicio-cargando">Cargando…</li>}
-            </ul>
-          </nav>
 
           <a href={enlaceWhatsapp} target="_blank" rel="noopener noreferrer" className="inicio-ayuda">
             <span className="inicio-ayuda-icono"><Icono nombre="chat" size={26} /></span>
