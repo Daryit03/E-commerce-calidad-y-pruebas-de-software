@@ -18,6 +18,8 @@ router.get('/categorias', c.listarCategorias);
 router.get('/productos', c.buscarProductos);
 router.get('/productos/destacados', c.listarDestacados); // va ANTES de /:id
 router.get('/productos/marcas', c.listarMarcas);         // va ANTES de /:id
+router.get('/productos/nuevos', c.listarNuevos);         // va ANTES de /:id
+router.get('/marcas', c.listarMarcasTienda);
 router.get('/productos/:id', c.obtenerDetalle);
 
 module.exports = router;

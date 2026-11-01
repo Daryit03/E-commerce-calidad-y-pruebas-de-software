@@ -132,6 +132,29 @@ class PrismaProductoRepository extends ProductoRepository {
     });
     return marcas.map((m) => ({ id: m.id_marca, nombre: m.nombre }));
   }
+
+  // Los últimos productos registrados (para "Nuevos productos" del inicio)
+  async listarNuevos(limite) {
+    const filas = await this.prisma.producto.findMany({
+      where: wherePublicado(),
+      orderBy: { fecha_registro: 'desc' },
+      take: limite,
+      include: INCLUDE_TARJETA,
+    });
+    return filas.map(aEntidad);
+  }
+
+  // Marcas activas que tienen al menos un producto publicado
+  async listarMarcasTienda() {
+    const marcas = await this.prisma.marca.findMany({
+      where: {
+        estado: true,
+        producto: { some: { estado: true, subcategoria: { estado: true, categoria: { estado: true } } } },
+      },
+      orderBy: { nombre: 'asc' },
+    });
+    return marcas.map((m) => ({ id: m.id_marca, nombre: m.nombre }));
+  }
 }
 
 module.exports = PrismaProductoRepository;

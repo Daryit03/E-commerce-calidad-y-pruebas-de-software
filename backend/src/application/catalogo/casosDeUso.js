@@ -40,7 +40,16 @@ function crearCasosDeUsoCatalogo({ productoRepository, categoriaRepository }) {
       return productos.map(aTarjeta);
     },
 
-    // HO4 y HO5: buscar, filtrar, ordenar y paginar
+    // Inicio: últimos productos agregados
+    async listarNuevos() {
+      const productos = await productoRepository.listarNuevos(8);
+      return productos.map(aTarjeta);
+    },
+
+    // Inicio: marcas que vende la tienda
+    async listarMarcasTienda() {
+      return productoRepository.listarMarcasTienda();
+    },
     async buscarProductos(params) {
       const pagina = Math.max(1, parseInt(params.pagina, 10) || 1);
       const limite = Math.min(48, Math.max(1, parseInt(params.limite, 10) || 12));

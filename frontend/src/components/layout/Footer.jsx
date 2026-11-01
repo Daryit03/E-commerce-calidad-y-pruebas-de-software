@@ -74,15 +74,7 @@ export default function Footer() {
         {/* Marca */}
         <div className="footer-marca">
           <Link to="/" className="footer-logo" onClick={subir}>
-            <span className="footer-logo-icono">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-                <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" />
-              </svg>
-            </span>
-            <span>
-              <strong>ELECTRO FERRETERO</strong>
-              <small>DARVIN S.A.C.</small>
-            </span>
+            <img src="/logo.png" alt="Electro Ferretero Darvin S.A.C." className="footer-logo-img" />
           </Link>
           <p className="footer-lema">Tu ferretería de confianza, siempre contigo.</p>
           <ul className="footer-beneficios">

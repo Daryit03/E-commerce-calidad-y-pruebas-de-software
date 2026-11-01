@@ -26,3 +26,13 @@ export async function obtenerMarcas(idSubcategoria) {
   });
   return data;
 }
+
+export async function obtenerNuevos() {
+  const { data } = await api.get('/productos/nuevos');
+  return data;
+}
+
+export async function obtenerMarcasTienda() {
+  const { data } = await api.get('/marcas');
+  return data;
+}
