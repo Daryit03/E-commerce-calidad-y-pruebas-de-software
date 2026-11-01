@@ -7,6 +7,7 @@ const CryptoAdapter = require('../external/CryptoAdapter');
 const MailAdapter = require('../external/MailAdapter');
 const { crearCasosDeUsoAuth } = require('../../application/auth/casosDeUso');
 const { crearCasosDeUsoRecuperacion } = require('../../application/auth/recuperacion');
+const { crearCasosDeUsoVerificacion } = require('../../application/auth/verificacion');
 const { crearCasosDeUsoPerfil } = require('../../application/perfil/casosDeUso');
 const { crearAuthController } = require('../controllers/auth.controller');
 const { requiereAuth } = require('../../middlewares/auth.middleware');
@@ -23,8 +24,22 @@ const limiteIntentos = rateLimit({
 
 const usuarioRepository = new PrismaUsuarioRepository();
 
+const verificacion = crearCasosDeUsoVerificacion({
+  usuarioRepository,
+  tokenRepository: new PrismaTokenRecuperacionRepository(),
+  hasher: BcryptAdapter,
+  crypto: CryptoAdapter,
+  mailer: MailAdapter,
+});
+
 const c = crearAuthController({
-  auth: crearCasosDeUsoAuth({ usuarioRepository, hasher: BcryptAdapter, tokens: JWTAdapter }),
+  auth: crearCasosDeUsoAuth({
+    usuarioRepository,
+    hasher: BcryptAdapter,
+    tokens: JWTAdapter,
+    enviarCodigoVerificacion: verificacion.enviarCodigo,
+  }),
+  verificacion,
   perfil: crearCasosDeUsoPerfil({ usuarioRepository, hasher: BcryptAdapter }),
   recuperacion: crearCasosDeUsoRecuperacion({
     usuarioRepository,
@@ -43,6 +58,8 @@ router.post('/registro', limiteIntentos, c.registrar);
 router.post('/login', limiteIntentos, c.iniciarSesion);
 router.post('/recuperar', limiteIntentos, c.solicitarRecuperacion);
 router.post('/restablecer', limiteIntentos, c.restablecerPassword);
+router.post('/verificar', limiteIntentos, c.verificarCorreo);
+router.post('/reenviar-verificacion', limiteIntentos, c.reenviarVerificacion);
 
 // Privadas (requieren token)
 router.get('/yo', requiereAuth, c.yo);

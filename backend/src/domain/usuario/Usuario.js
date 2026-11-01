@@ -1,6 +1,6 @@
 class Usuario {
-  constructor({ id, nombres, apellidos, dni, correo, telefono, rol, estado, passwordHash, fechaRegistro }) {
-    Object.assign(this, { id, nombres, apellidos, dni, correo, telefono, rol, estado, passwordHash, fechaRegistro });
+  constructor({ id, nombres, apellidos, dni, correo, telefono, rol, estado, emailVerificado, passwordHash, fechaRegistro }) {
+    Object.assign(this, { id, nombres, apellidos, dni, correo, telefono, rol, estado, emailVerificado, passwordHash, fechaRegistro });
   }
 
   esAdministrador() {

@@ -211,6 +211,7 @@ model token_recuperacion {
   fecha_expiracion DateTime @db.Timestamptz(6)
   usado            Boolean  @default(false)
   intentos         Int      @default(0)
+  tipo             String   @default("recuperacion") @db.VarChar(20)
   usuario          usuario  @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_token_usuario")
 }
 
@@ -225,6 +226,7 @@ model usuario {
   password            String               @db.VarChar(255)
   telefono            String?              @db.VarChar(20)
   estado              Boolean              @default(true)
+  email_verificado    Boolean              @default(false)
   fecha_registro      DateTime             @default(now()) @db.Timestamptz(6)
   fecha_actualizacion DateTime?            @db.Timestamptz(6)
   carrito             carrito[]

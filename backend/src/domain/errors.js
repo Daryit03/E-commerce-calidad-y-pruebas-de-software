@@ -14,7 +14,7 @@ class NoAutorizadoError extends ErrorDeDominio {
   constructor(mensaje = 'Debes iniciar sesión') { super(mensaje, 401); }
 }
 class ProhibidoError extends ErrorDeDominio {
-  constructor(mensaje = 'No tienes permiso para esta acción') { super(mensaje, 403); }
+  constructor(mensaje = 'No tienes permiso para esta acción', errores) { super(mensaje, 403, errores); }
 }
 class NoEncontradoError extends ErrorDeDominio {
   constructor(mensaje = 'Recurso no encontrado') { super(mensaje, 404); }

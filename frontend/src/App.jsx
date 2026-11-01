@@ -25,6 +25,7 @@ import PedidoAdmin from './pages/admin/PedidoAdmin';
 import GestionClientes from './pages/admin/GestionClientes';
 import ClienteAdmin from './pages/admin/ClienteAdmin';
 import NoEncontrado from './pages/NoEncontrado';
+import VerificarCorreo from './pages/VerificarCorreo';
 
 export default function App() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
           <Route path="/recuperar" element={<RecuperarCuenta />} />
+          <Route path="/verificar-correo" element={<VerificarCorreo />} />
           <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
           <Route path="/carrito" element={<ProtectedRoute><Carrito /></ProtectedRoute>} />
           <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />

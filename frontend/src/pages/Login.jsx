@@ -28,6 +28,10 @@ export default function Login() {
       setExito(datos.mensaje);
       setTimeout(() => navigate(destino, { replace: true }), 1000);
     } catch (err) {
+      // Contraseña correcta pero correo sin verificar: ir a la pantalla del código
+      if (err.response?.data?.errores?.verificarCorreo) {
+        return navigate('/verificar-correo', { state: { correo, aviso: mensajeError(err) } });
+      }
       setError(mensajeError(err, 'No se pudo iniciar sesión.'));
       setEnviando(false);
     }

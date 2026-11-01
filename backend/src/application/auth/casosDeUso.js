@@ -1,4 +1,4 @@
-const { ValidacionError, ConflictoError, NoAutorizadoError } = require('../../domain/errors');
+const { ValidacionError, ConflictoError, NoAutorizadoError, ProhibidoError } = require('../../domain/errors');
 const { validarRegistro } = require('../../domain/usuario/validaciones');
 
 // Limpia espacios y pone el correo en minúsculas
@@ -15,7 +15,7 @@ function normalizar(d = {}) {
   };
 }
 
-function crearCasosDeUsoAuth({ usuarioRepository, hasher, tokens }) {
+function crearCasosDeUsoAuth({ usuarioRepository, hasher, tokens, enviarCodigoVerificacion }) {
   return {
     // HO2 - Registrar usuario
     async registrar(datos) {
@@ -39,7 +39,17 @@ function crearCasosDeUsoAuth({ usuarioRepository, hasher, tokens }) {
         rol: 'Cliente', // quien se registra siempre es Cliente
       });
 
-      return { mensaje: '¡Cuenta creada correctamente! Ya puedes iniciar sesión.', usuario: usuario.aPublico() };
+      // Envía el código para verificar el correo (si el correo falla, la cuenta igual queda creada)
+      try {
+        await enviarCodigoVerificacion(usuario);
+      } catch (e) {
+        console.error('No se pudo enviar el código de verificación:', e.message);
+      }
+
+      return {
+        mensaje: '¡Cuenta creada! Te enviamos un código de 6 dígitos a tu correo para activarla.',
+        correo: usuario.correo,
+      };
     },
 
     // HO1 - Iniciar sesión
@@ -52,6 +62,12 @@ function crearCasosDeUsoAuth({ usuarioRepository, hasher, tokens }) {
       const valido = usuario && usuario.estado && (await hasher.comparar(password, usuario.passwordHash));
       // Mismo mensaje en ambos casos: así no se revela qué correos existen
       if (!valido) throw new NoAutorizadoError('Correo o contraseña incorrectos');
+
+      // Contraseña correcta, pero falta verificar el correo
+      if (!usuario.emailVerificado)
+        throw new ProhibidoError('Tu correo aún no está verificado. Ingresa el código que te enviamos o solicita uno nuevo.', {
+          verificarCorreo: true,
+        });
 
       const token = tokens.firmar({ id: usuario.id, rol: usuario.rol });
       return { mensaje: `¡Bienvenido(a), ${usuario.nombres}!`, token, usuario: usuario.aPublico() };

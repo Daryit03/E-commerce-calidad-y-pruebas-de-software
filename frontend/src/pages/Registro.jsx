@@ -42,7 +42,7 @@ export default function Registro() {
     setEnviando(true);
     try {
       const r = await registrar(datos);
-      navigate('/login', { state: { aviso: r.mensaje } }); // RF0012
+      navigate('/verificar-correo', { state: { correo: r.correo, aviso: r.mensaje } }); // RF0012 + RF0078
     } catch (err) {
       setErrores(err.response?.data?.errores || {});
       setErrorGeneral(mensajeError(err, 'No se pudo crear la cuenta.'));

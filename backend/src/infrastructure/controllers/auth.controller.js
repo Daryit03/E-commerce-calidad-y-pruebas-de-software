@@ -1,4 +1,4 @@
-function crearAuthController({ auth, perfil, recuperacion }) {
+function crearAuthController({ auth, perfil, recuperacion, verificacion }) {
   const body = (req) => req.body ?? {};
 
   return {
@@ -14,6 +14,10 @@ function crearAuthController({ auth, perfil, recuperacion }) {
     // Recuperación de cuenta
     solicitarRecuperacion: async (req, res) => res.json(await recuperacion.solicitar(body(req))),
     restablecerPassword: async (req, res) => res.json(await recuperacion.restablecer(body(req))),
+
+    // Verificación del correo (al registrarse)
+    verificarCorreo: async (req, res) => res.json(await verificacion.verificar(body(req))),
+    reenviarVerificacion: async (req, res) => res.json(await verificacion.reenviar(body(req))),
   };
 }
 

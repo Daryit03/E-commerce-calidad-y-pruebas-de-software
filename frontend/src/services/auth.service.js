@@ -7,3 +7,5 @@ export const actualizarPerfil = (datos) => api.put('/auth/perfil', datos).then((
 export const cambiarPassword = (datos) => api.put('/auth/password', datos).then((r) => r.data);
 export const solicitarRecuperacion = (correo) => api.post('/auth/recuperar', { correo }).then((r) => r.data);
 export const restablecerPassword = (datos) => api.post('/auth/restablecer', datos).then((r) => r.data);
+export const verificarCorreo = (correo, codigo) => api.post('/auth/verificar', { correo, codigo }).then((r) => r.data);
+export const reenviarVerificacion = (correo) => api.post('/auth/reenviar-verificacion', { correo }).then((r) => r.data);

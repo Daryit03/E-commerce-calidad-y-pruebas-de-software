@@ -16,6 +16,7 @@ function aEntidad(f) {
     telefono: f.telefono,
     rol: f.rol.nombre,
     estado: f.estado,
+    emailVerificado: f.email_verificado,
     passwordHash: f.password,
     fechaRegistro: f.fecha_registro,
   });
