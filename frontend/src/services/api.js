@@ -17,7 +17,9 @@ export function guardarToken(token) {
 export const mensajeError = (err, porDefecto = 'Ocurrió un error') =>
   err.response?.data?.error || porDefecto;
 
-const api = axios.create({ baseURL: '/api' });
+// En tu PC: '/api' (el puente de Vite lo pasa al backend).
+// En internet: la dirección real del backend, desde la variable VITE_API_URL.
+const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || '/api' });
 
 api.interceptors.request.use((config) => {
   const token = leerToken();

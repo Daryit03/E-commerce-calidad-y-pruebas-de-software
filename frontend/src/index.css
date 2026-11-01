@@ -21,6 +21,10 @@ button { font: inherit; cursor: pointer; }
 
 .contenedor { max-width: 1240px; margin: 0 auto; padding: 28px 24px 64px; }
 
+/* Footer siempre abajo: el contenido del medio ocupa el espacio libre */
+#root { min-height: 100vh; display: flex; flex-direction: column; }
+main.contenedor { flex: 1; width: 100%; }
+
 /* ---------- Navbar ---------- */
 .navbar { background: var(--navy); color: #fff; }
 .navbar-interior {
@@ -126,6 +130,11 @@ button { font: inherit; cursor: pointer; }
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
 }
 .footer strong { color: #fff; }
+.footer-ruc { margin: 4px 0 0; }
+.footer-contacto { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.footer-contacto span { color: #8B92B8; }
+.footer-contacto a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.footer-contacto a:hover { color: var(--magenta); }
 
 /* ===== Catálogo ===== */
 .catalogo { display: grid; grid-template-columns: 250px 1fr; gap: 24px; align-items: start; }
