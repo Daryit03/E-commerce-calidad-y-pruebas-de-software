@@ -16,7 +16,7 @@ export default function Home() {
         setCategorias(cats);
         setDestacados(dest);
       })
-      .catch(() => setError('No se pudo conectar con el servidor. ¿Está encendido el backend?'))
+      .catch(() => setError('No pudimos cargar la tienda en este momento. Revisa tu conexión a internet y vuelve a intentarlo en unos segundos.'))
       .finally(() => setCargando(false));
   }, []);
 

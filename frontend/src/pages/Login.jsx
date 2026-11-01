@@ -14,6 +14,7 @@ export default function Login() {
   const [enviando, setEnviando] = useState(false);
 
   const aviso = location.state?.aviso;          // mensaje que llega desde Registro
+  const errorSesion = location.state?.error;    // sesión vencida o cuenta desactivada
   const destino = location.state?.desde || '/'; // a dónde volver después
 
   async function enviar(e) {
@@ -37,6 +38,7 @@ export default function Login() {
       <form className="caja auth-form" onSubmit={enviar} noValidate>
         <h1>Iniciar sesión</h1>
         {aviso && !exito && <p className="mensaje-exito">{aviso}</p>}
+        {errorSesion && !error && !exito && <p className="mensaje-error">{errorSesion}</p>}
         {error && <p className="mensaje-error">{error}</p>}
         {exito && <p className="mensaje-exito">{exito}</p>}
 

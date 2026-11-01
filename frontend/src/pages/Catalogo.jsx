@@ -40,7 +40,7 @@ export default function Catalogo() {
     setError('');
     buscarProductos(Object.fromEntries(params))
       .then(setResultado)
-      .catch(() => setError('No se pudo cargar el catálogo. ¿Está encendido el backend?'))
+      .catch(() => setError('No pudimos cargar los productos en este momento. Revisa tu conexión a internet y vuelve a intentarlo en unos segundos.'))
       .finally(() => setCargando(false));
   }, [params]);
 

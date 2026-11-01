@@ -25,6 +25,7 @@ import GestionPedidos from './pages/admin/GestionPedidos';
 import PedidoAdmin from './pages/admin/PedidoAdmin';
 import GestionClientes from './pages/admin/GestionClientes';
 import ClienteAdmin from './pages/admin/ClienteAdmin';
+import NoEncontrado from './pages/NoEncontrado';
 
 export default function App() {
   return (
@@ -56,9 +57,9 @@ export default function App() {
               <Route path="pedidos/:id" element={<PedidoAdmin />} />
               <Route path="clientes" element={<GestionClientes />} />
               <Route path="clientes/:id" element={<ClienteAdmin />} />
-            <Route path="*" element={<p className="texto-gris">Este módulo se construirá en los siguientes pasos.</p>} />
+            <Route path="*" element={<NoEncontrado enlace="/admin" textoEnlace="Volver al panel" />} />
           </Route>
-          <Route path="*" element={<p>Esta página aún está en construcción.</p>} />
+          <Route path="*" element={<NoEncontrado />} />
         </Routes>
       </main>
       <Footer />

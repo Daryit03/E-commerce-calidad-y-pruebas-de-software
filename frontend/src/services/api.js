@@ -27,4 +27,24 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Qué hacer cuando la sesión deja de ser válida (lo define AuthProvider)
+let alSesionInvalida = null;
+export function registrarSesionInvalida(fn) {
+  alSesionInvalida = fn;
+}
+
+// Vigilante: revisa cada respuesta del backend
+api.interceptors.response.use(
+  (respuesta) => respuesta,
+  (err) => {
+    const conToken = Boolean(err.config?.headers?.Authorization);
+    const esRevisionInicial = err.config?.url === '/auth/yo';
+    // 401 con token = el token venció o la cuenta se desactivó
+    if (err.response?.status === 401 && conToken && !esRevisionInicial && alSesionInvalida) {
+      alSesionInvalida(mensajeError(err, 'Tu sesión expiró. Inicia sesión de nuevo.'));
+    }
+    return Promise.reject(err);
+  }
+);
+
 export default api;
