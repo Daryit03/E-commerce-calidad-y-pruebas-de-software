@@ -50,7 +50,7 @@ function crearCasosDeUsoCatalogo({ productoRepository, categoriaRepository }) {
       }
 
       const filtros = {
-        texto: String(params.q || '').trim(),
+        texto: String(params.q || '').trim().slice(0, 100),
         idCategoria: aEntero(params.categoria),
         idSubcategoria: aEntero(params.subcategoria),
         orden,

@@ -26,7 +26,9 @@ export default function Login() {
     try {
       const datos = await login(correo, password);
       setExito(datos.mensaje);
-      setTimeout(() => navigate(destino, { replace: true }), 1000);
+      // El administrador entra directo a su panel
+      const irA = datos.usuario.rol === 'Administrador' && destino === '/' ? '/admin' : destino;
+      setTimeout(() => navigate(irA, { replace: true }), 1000);
     } catch (err) {
       // Contraseña correcta pero correo sin verificar: ir a la pantalla del código
       if (err.response?.data?.errores?.verificarCorreo) {

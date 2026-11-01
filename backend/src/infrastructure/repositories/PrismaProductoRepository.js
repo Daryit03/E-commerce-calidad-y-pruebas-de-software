@@ -52,13 +52,8 @@ class PrismaProductoRepository extends ProductoRepository {
   async buscar(f) {
     const where = wherePublicado();
 
-    // RF0018: búsqueda por nombre (o marca), sin importar mayúsculas
-    if (f.texto) {
-      where.OR = [
-        { nombre: { contains: f.texto, mode: 'insensitive' } },
-        { marca: { nombre: { contains: f.texto, mode: 'insensitive' } } },
-      ];
-    }
+    // RF0018: búsqueda por nombre (o marca), sin importar mayúsculas ni tildes
+    if (f.texto) where.id_producto = { in: await this.idsPorTexto(f.texto) };
     if (f.idCategoria) where.subcategoria.id_categoria = f.idCategoria;
     if (f.idSubcategoria) where.id_subcategoria = f.idSubcategoria;
     if (f.idsMarca && f.idsMarca.length) where.id_marca = { in: f.idsMarca };
@@ -90,6 +85,19 @@ class PrismaProductoRepository extends ProductoRepository {
     ]);
 
     return { productos: filas.map(aEntidad), total };
+  }
+
+  // Ids de productos cuyo nombre o marca contienen el texto, ignorando tildes y mayúsculas
+  async idsPorTexto(texto) {
+    // % y _ son comodines en SQL: se escapan para buscarlos como texto normal
+    const patron = `%${texto.replace(/[\\%_]/g, (c) => '\\' + c)}%`;
+    const filas = await this.prisma.$queryRaw`
+      SELECT p.id_producto
+      FROM producto p
+      JOIN marca m ON m.id_marca = p.id_marca
+      WHERE unaccent(p.nombre) ILIKE unaccent(${patron})
+         OR unaccent(m.nombre) ILIKE unaccent(${patron})`;
+    return filas.map((f) => f.id_producto);
   }
 
   async buscarPorId(id) {

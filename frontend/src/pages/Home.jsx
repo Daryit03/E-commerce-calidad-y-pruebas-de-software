@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import ProductCard from '../components/product/ProductCard';
 import { obtenerCategorias, obtenerDestacados } from '../services/catalogo.service';
 
@@ -8,6 +9,7 @@ export default function Home() {
   const [destacados, setDestacados] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
+  const { usuario } = useAuth();
 
   // useEffect se ejecuta una vez, cuando la página aparece
   useEffect(() => {
@@ -19,6 +21,9 @@ export default function Home() {
       .catch(() => setError('No pudimos cargar la tienda en este momento. Revisa tu conexión a internet y vuelve a intentarlo en unos segundos.'))
       .finally(() => setCargando(false));
   }, []);
+
+  // El administrador no usa la tienda: va directo a su panel
+  if (usuario?.rol === 'Administrador') return <Navigate to="/admin" replace />;
 
   return (
     <>
