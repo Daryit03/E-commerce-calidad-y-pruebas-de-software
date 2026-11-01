@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import ScrollArriba from './components/layout/ScrollArriba';
 import Home from './pages/Home';
 import Catalogo from './pages/Catalogo';
 import ProductoDetalle from './pages/ProductoDetalle';
@@ -30,6 +31,7 @@ import VerificarCorreo from './pages/VerificarCorreo';
 export default function App() {
   return (
     <>
+      <ScrollArriba />
       <Navbar />
       <main className="contenedor">
         <Routes>

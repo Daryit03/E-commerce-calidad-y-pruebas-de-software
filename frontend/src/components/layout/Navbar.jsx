@@ -52,12 +52,13 @@ export default function Navbar() {
           </form>
         )}
 
-        <nav className="nav-links" aria-label="Principal">
+        <nav className={`nav-links ${esAdmin ? "nav-admin-barra" : ""}`} aria-label="Principal">
           {esAdmin ? (
             // Administrador: solo su panel, su nombre y cerrar sesión
             <>
               <Link to="/admin" className="nav-admin">Panel admin</Link>
-              <Link to="/perfil" className="nav-usuario">
+              <Link to="/perfil" className="nav-usuario" title="Mi perfil">
+                <span className="avatar">{usuario.nombres.charAt(0).toUpperCase()}</span>
                 Hola, {usuario.nombres.split(" ")[0]}
               </Link>
               <button className="nav-salir" onClick={cerrarSesion}>Cerrar sesión</button>

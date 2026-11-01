@@ -67,7 +67,7 @@ export default function Home() {
         )}
       </section>
 
-      <section className="seccion caja">
+      <section className="seccion caja" id="nosotros">
         <h2>Quiénes somos</h2>
         <p>
           Electro Ferretero Darvin S.A.C. es una ferretería de San Martín de Porres, Lima,

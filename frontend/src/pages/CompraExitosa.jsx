@@ -15,7 +15,7 @@ export default function CompraExitosa() {
 
   return (
     <div className="caja confirmacion">
-      <div className="check">✓</div>
+      <div className="check-exito">✓</div>
       <h1>{mensaje}</h1>
       <p>Tu pedido <b>N.º {pedido.id}</b> fue registrado y está <b>Pendiente</b> de atención.</p>
 
