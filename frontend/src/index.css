@@ -880,3 +880,92 @@ a.btn.btn-bloque { display: flex; }
 .footer-pago { height: 40px; gap: 8px; padding: 0 12px 0 8px; }
 .footer-pago img { max-height: 28px; max-width: 64px; }
 .footer-pago span { font-size: 13px; }
+
+
+/* =========================================================
+   PALETA "NEÓN DARVIN" (futurista, colores del logo)
+   ========================================================= */
+:root {
+  --navy: #070B1A; --azul-osc: #070B1A; --azul-profundo: #04060F;
+  --azul: #3B5BFF; --azul-claro: #EEEBFF;
+  --amarillo: #5B8CFF; --amarillo-osc: #B04DFF;
+  --neon: #5B8CFF; --neon-2: #B04DFF; --brillo: rgba(91,140,255,.5);
+  --magenta: #B04DFF; --fondo: #F2F5FA; --texto: #0B1020; --gris: #5A6276; --borde: #DCE2EC;
+}
+/* Títulos con letra tecnológica */
+.hero-tienda h1, .seccion-titulo h2, .visita-info h2, .nosotros-hero h1 { font-family: 'Rajdhani', 'Oswald', sans-serif; letter-spacing: .02em; }
+.hero-tienda h1 { font-weight: 700; font-size: clamp(36px, 4.4vw, 58px); line-height: 1; }
+.hero-tienda-texto { max-width: 640px; }
+
+/* Botones neón con brillo */
+.btn-amarillo, .cab-buscador button, .producto-agregar {
+  background: var(--neon); color: #04111F; box-shadow: 0 0 0 1px rgba(255,255,255,.15) inset, 0 0 18px var(--brillo);
+}
+.btn-amarillo:hover, .cab-buscador button:hover, .producto-agregar:hover:not(:disabled) {
+  background: var(--neon); box-shadow: 0 0 26px var(--brillo); filter: brightness(1.08);
+}
+.producto-agregar:disabled { background: var(--fondo); color: #A0A6BF; box-shadow: none; }
+.producto-agregar.ok { background: #16A34A; color: #fff; box-shadow: none; }
+.cab-contador { background: var(--neon); color: #04111F; box-shadow: 0 0 10px var(--brillo); }
+/* Etiqueta "Destacado": pequeña, clara y sin tapar la foto */
+.badge-destacado {
+  top: 8px; left: 8px; padding: 3px 9px; font-size: 11px; font-weight: 700; letter-spacing: .02em;
+  background: rgba(241, 236, 255, .92); color: #6D28D9; border: 1px solid #DCCBFF;
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+.visita-icono, .footer-titulo-icono { background: rgba(255,255,255,.06); color: var(--neon); border: 1px solid var(--neon); box-shadow: 0 0 12px var(--brillo); }
+
+/* Cabecera oscura de una sola pieza, con línea de luz */
+.cabecera, .navbar { background: #070B1A; }
+.cab-top { background: #04060F; border-bottom: 1px solid rgba(255,255,255,.06); }
+.cab-menu { background: #070B1A; border-top: 1px solid rgba(255,255,255,.06); border-bottom: 0; }
+.cab-menu::after { content: ''; display: block; height: 2px; background: linear-gradient(90deg, transparent, var(--neon) 20%, var(--neon-2) 80%, transparent); box-shadow: 0 0 12px var(--brillo); }
+.cab-categorias-boton { background: rgba(255,255,255,.04); color: var(--neon); border-left: 1px solid rgba(255,255,255,.08); border-right: 1px solid rgba(255,255,255,.08); }
+.cab-categorias-boton:hover { background: rgba(255,255,255,.08); }
+.cab-enlaces a { color: #C7CEDF; }
+.cab-enlaces a:hover { color: #fff; }
+.cab-enlaces a.active { color: var(--neon); border-bottom-color: var(--neon); text-shadow: 0 0 10px var(--brillo); }
+.cab-buscador input { background: #0E1428; color: #fff; border: 1px solid rgba(255,255,255,.12); border-right: 0; }
+.cab-buscador input::placeholder { color: #8089A3; }
+.cab-top svg { color: var(--neon); }
+.nav-links a:hover, .nav-admin-barra .nav-salir:hover { background: rgba(255,255,255,.08); }
+
+/* Banner */
+.hero-tienda {
+  background: linear-gradient(90deg, rgba(7,11,26,.97) 0%, rgba(7,11,26,.88) 40%, rgba(7,11,26,.35) 100%), url('/foto-tienda.jpg') center / cover no-repeat, #070B1A;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.hero-tienda::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 40px 40px; mask-image: linear-gradient(90deg, #000 0%, transparent 60%); -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 60%);
+}
+.hero-tienda::after { height: 3px; background: linear-gradient(90deg, var(--neon), var(--neon-2) 60%, transparent); box-shadow: 0 0 14px var(--brillo); }
+.hero-tienda h1 span { color: var(--neon); text-shadow: 0 0 22px var(--brillo); }
+.hero-tienda-etiqueta { background: rgba(255,255,255,.04); border-color: var(--neon); color: var(--neon); }
+.hero-tienda-puntos svg, .hero-tienda-tarjeta svg { color: var(--neon); }
+.hero-tienda-tarjeta { background: rgba(7,11,26,.6); border-color: rgba(255,255,255,.14); }
+@media (max-width: 900px) { .hero-tienda { background: linear-gradient(180deg, rgba(7,11,26,.96) 0%, rgba(7,11,26,.86) 60%, rgba(7,11,26,.7) 100%), url('/foto-tienda.jpg') center / cover no-repeat, #070B1A; } }
+
+/* Tienda */
+.producto-precio { color: #0B1020; }
+.seccion-titulo h2 svg { color: var(--neon-2); }
+.inicio-beneficio svg { color: var(--azul); }
+.btn-azul { background: var(--azul); }
+.opcion.activa, .foto-subir:hover { background: var(--azul-claro); }
+.inicio-marcas { background: #070B1A; border: 1px solid rgba(255,255,255,.08); box-shadow: 0 0 0 1px rgba(0,0,0,.02); }
+.inicio-marcas-lista a:hover { color: var(--neon); text-shadow: 0 0 10px var(--brillo); }
+
+/* Nosotros */
+.nosotros-hero { background: #070B1A; border: 1px solid rgba(255,255,255,.08); }
+.nosotros-hero small, .visita-etiqueta { color: var(--neon); }
+.nosotros-tarjeta { border-top-color: var(--neon-2); }
+.visita-info { background: linear-gradient(140deg, #0E1A3A 0%, #070B1A 75%); }
+.visita-icono { color: var(--neon); }
+
+/* Footer */
+.footer { --naranja: var(--neon); background: #070B1A; border-top: 0; position: relative; }
+.footer::before { content: ''; display: block; height: 2px; background: linear-gradient(90deg, transparent, var(--neon) 20%, var(--neon-2) 80%, transparent); box-shadow: 0 0 12px var(--brillo); }
+.footer-redes a { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); }
+.footer-redes a:hover { background: rgba(255,255,255,.1); color: var(--neon); border-color: var(--neon); }
+.footer-barra { background: #04060F; border-top-color: rgba(255,255,255,.06); }
