@@ -4,13 +4,19 @@ import {
   TIENDA, REDES, formatoCelular, enlaceTelefono, enlaceWhatsapp, enlaceCorreo, enlaceMapa,
 } from '../../config/tienda';
 
-// Medios de pago: los logos van en la carpeta frontend/public/pagos/
+// Medios de pago: los logos van en la carpeta frontend/public/iconos/
 const MEDIOS_PAGO = [
-  { nombre: 'Visa', logo: '/pagos/visa.svg', icono: 'tarjeta' },
-  { nombre: 'Yape', logo: '/pagos/yape.png' },
-  { nombre: 'Efectivo', icono: 'billete' },
-  { nombre: 'Contra entrega', icono: 'camion' },
+  { nombre: 'Visa', logo: '/iconos/visa.png', icono: 'tarjeta', soloLogo: true },
+  { nombre: 'Yape', logo: '/iconos/yape.png' },
+  { nombre: 'Efectivo', logo: '/iconos/efectivo.png', icono: 'billete' },
 ];
+
+// Logo de cada red social (frontend/public/iconos/)
+const LOGO_RED = {
+  Facebook: '/iconos/facebook.png',
+  Instagram: '/iconos/instagram.png',
+  TikTok: '/iconos/tiktok.png',
+};
 
 // Íconos simples (dibujos genéricos)
 const Icono = ({ d, size = 20 }) => (
@@ -42,6 +48,7 @@ function MedioPago({ medio }) {
     return (
       <span className="footer-pago" title={medio.nombre}>
         <img src={medio.logo} alt={medio.nombre} onError={() => setSinLogo(true)} />
+        {!medio.soloLogo && <span>{medio.nombre}</span>}
       </span>
     );
   }
@@ -129,7 +136,10 @@ export default function Footer() {
               {redes.map((r) => (
                 <li key={r.nombre}>
                   <a href={r.url} target="_blank" rel="noopener noreferrer">
-                    <Icono d={ICONOS.enlace} size={16} />{r.nombre}
+                    {LOGO_RED[r.nombre]
+                      ? <img src={LOGO_RED[r.nombre]} alt="" className="footer-red-logo" />
+                      : <Icono d={ICONOS.enlace} size={16} />}
+                    {r.nombre}
                   </a>
                 </li>
               ))}

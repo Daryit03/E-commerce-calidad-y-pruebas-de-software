@@ -3,7 +3,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import ProductCard from '../components/product/ProductCard';
 import Icono from '../components/ui/Icono';
-import { enlaceWhatsapp } from '../config/tienda';
+import { TIENDA } from '../config/tienda';
 import {
   obtenerCategorias, obtenerDestacados, obtenerNuevos, obtenerMarcasTienda,
 } from '../services/catalogo.service';
@@ -36,39 +36,36 @@ export default function Home() {
     <div className="inicio">
       {error && <p className="mensaje-error">{error}</p>}
 
-      <div className="inicio-arriba">
-        {/* Columna izquierda: categorías y ayuda */}
-        <aside className="inicio-lateral">
-
-          <a href={enlaceWhatsapp} target="_blank" rel="noopener noreferrer" className="inicio-ayuda">
-            <span className="inicio-ayuda-icono"><Icono nombre="chat" size={26} /></span>
-            <span>
-              <b>¿Necesitas ayuda?</b>
-              <small>Escríbenos por WhatsApp</small>
-              <span className="inicio-ayuda-boton">Chatear ahora</span>
-            </span>
-          </a>
-        </aside>
-
-        {/* Banner principal */}
-        <section className="inicio-banner">
-          <div className="inicio-banner-texto">
-            <h1>Todo lo que necesitas <span>para tus proyectos</span></h1>
-            <p>Material eléctrico y de ferretería con la mejor calidad y precio, en San Martín de Porres.</p>
-            <ul className="inicio-banner-puntos">
-              <li><Icono nombre="escudo" size={22} /> Productos originales</li>
-              <li><Icono nombre="asesor" size={22} /> Asesoría personalizada</li>
-              <li><Icono nombre="camion" size={22} /> Delivery y recojo en tienda</li>
-            </ul>
-            <div className="hero-botones">
-              <Link to="/catalogo" className="btn btn-amarillo">Ver catálogo <Icono nombre="flecha" size={18} /></Link>
-              <Link to="/nosotros" className="btn btn-borde">Nosotros</Link>
-              {/* Solo los visitantes sin sesión ven "Crear cuenta" */}
-              {!usuario && <Link to="/registro" className="btn btn-borde">Crear cuenta</Link>}
-            </div>
+      {/* Banner principal con la foto de la tienda */}
+      <section className="hero-tienda">
+        <div className="hero-tienda-texto">
+          <span className="hero-tienda-etiqueta"><Icono nombre="rayo" size={16} /> Ferretería en San Martín de Porres</span>
+          <h1>Todo lo que necesitas<br />para tus <span>proyectos</span></h1>
+          <p>Material eléctrico, herramientas, gasfitería y pinturas con la mejor calidad y precio.</p>
+          <ul className="hero-tienda-puntos">
+            <li><Icono nombre="escudo" size={24} /><span>Productos<br />originales</span></li>
+            <li><Icono nombre="asesor" size={24} /><span>Asesoría<br />personalizada</span></li>
+            <li><Icono nombre="camion" size={24} /><span>Delivery y<br />recojo en tienda</span></li>
+          </ul>
+          <div className="hero-botones">
+            <Link to="/catalogo" className="btn btn-amarillo">Ver catálogo <Icono nombre="flecha" size={18} /></Link>
+            <Link to="/nosotros" className="btn btn-borde">Nosotros</Link>
+            {!usuario && <Link to="/registro" className="btn btn-borde">Crear cuenta</Link>}
           </div>
-        </section>
-      </div>
+        </div>
+
+        {/* Tarjetas sobre la foto */}
+        <div className="hero-tienda-tarjetas">
+          <div className="hero-tienda-tarjeta">
+            <Icono nombre="tienda" size={22} />
+            <span><b>Visita nuestra tienda</b><small>{TIENDA.direccionCorta}</small></span>
+          </div>
+          <div className="hero-tienda-tarjeta">
+            <Icono nombre="reloj" size={22} />
+            <span><b>Lunes a sábado</b><small>8:00 a. m. – 8:00 p. m.</small></span>
+          </div>
+        </div>
+      </section>
 
       {/* Franja de beneficios */}
       <section className="inicio-beneficios">

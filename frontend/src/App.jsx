@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ScrollArriba from './components/layout/ScrollArriba';
+import BotonWhatsapp from './components/ui/BotonWhatsapp';
 import Home from './pages/Home';
 import Catalogo from './pages/Catalogo';
 import ProductoDetalle from './pages/ProductoDetalle';
@@ -67,6 +68,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <BotonWhatsapp />
     </>
   );
 }
