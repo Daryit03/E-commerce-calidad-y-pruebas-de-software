@@ -56,9 +56,11 @@ main.contenedor { flex: 1; width: 100%; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 46px; padding: 0 20px; border-radius: 10px; border: 0; font-weight: 700;
+  background: var(--azul); color: #fff;
 }
+.btn:hover:not(:disabled) { filter: brightness(1.1); }
 .btn-blanco { background: #fff; color: var(--navy); }
-.btn-borde { border: 1px solid #4A538F; color: #fff; }
+.btn-borde { background: transparent; border: 1px solid #4A538F; color: #fff; }
 .btn-azul { background: var(--azul); color: #fff; }
 
 /* ---------- Inicio ---------- */
