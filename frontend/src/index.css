@@ -718,8 +718,12 @@ a.btn.btn-bloque { display: flex; }
 }
 
 /* ---------- Tarjeta de producto (nueva) ---------- */
-.producto-imagen { background: #fff; border-bottom: 1px solid var(--borde); }
-.producto-imagen img { object-fit: contain; padding: 12px; }
+.producto-imagen { background: #fff; border-bottom: 1px solid var(--borde); overflow: hidden; }
+.producto-imagen img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain; padding: 12px;
+}
 .producto-nombre { color: var(--texto); }
 .producto-nombre:hover { color: var(--azul); }
 .producto-pie { margin-top: auto; padding-top: 6px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
