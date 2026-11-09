@@ -20,7 +20,7 @@ pipeline {
 
     environment {
         CI = 'true'
-        CORREOS_EQUIPO = 'darvinzelada@gmail.com.com, abrahamrequena18@gmail.com'   // Cambiar por los correos del equipo
+        CORREOS_EQUIPO = 'darvinzelada@gmail.com, abrahamrequena18@gmail.com'   // Cambiar por los correos del equipo
     }
 
     stages {
