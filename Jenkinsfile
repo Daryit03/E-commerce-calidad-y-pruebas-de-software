@@ -60,7 +60,7 @@ pipeline {
             environment {
                 // Valores solo para pruebas: no son los de producción
                 JWT_SECRET             = 'clave-solo-para-pruebas'
-                DATABASE_URL           = 'postgresql://pruebas:pruebas@localhost:5432/pruebas'
+                DATABASE_URL           = 'postgresql://localhost:5432/pruebas'
                 JEST_JUNIT_OUTPUT_DIR  = 'reports'
                 JEST_JUNIT_OUTPUT_NAME = 'junit-backend.xml'
             }
